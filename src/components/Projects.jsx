@@ -16,7 +16,7 @@ import glovcf from '@/assets/glovcf.png';
 const projects = [
     {
         id: 1,
-        title: "Businness management solution",
+        title: "Business management solution",
         description:
             "Complete Business Management Solution for small and medium-sized businesses. Streamline your entire business with our all-in-one platform. Manage inventory, run your e-commerce store, schedule appointments, and track finances — all from one beautiful dashboard.",
         image: ominbiz,
@@ -86,7 +86,8 @@ export const Projects = () => {
             <div className="container mx-auto px-4 lg:px-8">
                 <div className="text-center mb-16 animate-fade-in">
                     <h2 className="text-4xl lg:text-5xl font-bold mb-4">
-                        Featured <span className="text-gradient text-red-500">Projects</span>
+                        Featured
+                     <span className="text-gradient text-red-500"> Projects</span>
                     </h2>
                     <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
                         Here are some of my recent projects that showcase my skills and experience

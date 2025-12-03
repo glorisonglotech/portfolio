@@ -19,6 +19,22 @@ const skillCategories = [
         ],
     },
     {
+    title: "Cybersecurity",
+    skills: [
+      { name: "Penetration Testing", level: 80 },
+      { name: "Network Security", level: 75 },
+      { name: "SIEM / SOC Analysis", level: 78 },
+    ],
+  },
+  {
+    title: "Security Tools",
+    skills: [
+      { name: "Wireshark / Nmap", level: 82 },
+      { name: "Burp Suite / OWASP ZAP", level: 78 },
+      { name: "Metasploit / Kali Linux", level: 75 },
+    ],
+  },
+    {
         title: "Tools & Technologies",
         skills: [
             { name: "Git / GitHub", level: 85 },
@@ -42,7 +58,7 @@ export const Skills = () => {
             <div className="container mx-auto px-4 lg:px-8">
                 <div className="text-center mb-16 animate-fade-in">
                     <h2 className="text-4xl lg:text-5xl font-bold mb-4">
-                        Skills & <span className="text-gradient">Expertise</span>
+                        Skills & <span className="text-red-500">Expertise</span>
                     </h2>
                     <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
                         A comprehensive overview of my technical and professional competencies
