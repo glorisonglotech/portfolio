@@ -74,7 +74,7 @@ const stats = [
 ];
 
 // ── Typing subtitle ───────────────────────────────────────────────
-const TITLES = ["MERN Stack Developer", "Cybersecurity Specialist", "Penetration Tester", "Secure Code Advocate"];
+const TITLES = ["MERN Stack Developer", "Ethical Hacker", "Penetration Tester", "Cyber Security Analyst"];
 const useTyping = () => {
   const [titleIdx, setTitleIdx] = useState(0);
   const [displayed, setDisplayed] = useState("");
