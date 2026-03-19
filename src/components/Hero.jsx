@@ -111,14 +111,13 @@ export const Hero = () => {
         style={{ backgroundImage: "repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.025) 2px,rgba(0,0,0,0.025) 4px)" }}
       />
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 lg:py-20 relative z-10">
 
         {/* Threat ticker — desktop */}
         <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="mb-10 hidden sm:flex items-center gap-3
-            bg-white/60 dark:bg-black/40
-            backdrop-blur-sm
+          className="mb-8 hidden sm:flex items-center gap-3
+            bg-white/60 dark:bg-black/40 backdrop-blur-sm
             border border-red-300 dark:border-red-500/30
             rounded-lg px-4 py-2 w-fit max-w-full overflow-hidden"
         >
@@ -127,17 +126,14 @@ export const Hero = () => {
             LIVE THREAT MONITOR
           </span>
           <span className="text-red-400/50 text-xs shrink-0">|</span>
-          <div className="min-w-0 flex-1">
-            <ThreatTicker />
-          </div>
+          <div className="min-w-0 flex-1"><ThreatTicker /></div>
         </motion.div>
 
-        {/* Threat ticker — mobile compact */}
+        {/* Threat ticker — mobile */}
         <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="mb-8 flex sm:hidden items-center gap-2
-            bg-white/60 dark:bg-black/40
-            backdrop-blur-sm
+          className="mb-6 flex sm:hidden items-center gap-2
+            bg-white/60 dark:bg-black/40 backdrop-blur-sm
             border border-red-300 dark:border-red-500/30
             rounded-lg px-3 py-2 w-full overflow-hidden"
         >
@@ -147,33 +143,32 @@ export const Hero = () => {
           <div className="min-w-0 flex-1"><ThreatTicker /></div>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-center">
 
-          {/* LEFT */}
+          {/* LEFT — text */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}>
 
             <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold mb-4 leading-tight text-gray-900 dark:text-white">
               Hi, I'm{" "}
-              <span className="text-red-500 dark:text-red-500 font-mono break-words">{glitchedName}</span>
+              <span className="text-red-500 font-mono break-words">{glitchedName}</span>
             </h1>
 
-            {/* Typing subtitle */}
-            <h2 className="text-xl sm:text-2xl lg:text-3xl font-mono font-semibold
+            <h2 className="text-lg sm:text-2xl lg:text-3xl font-mono font-semibold
               text-gray-600 dark:text-muted-foreground
-              mb-6 flex items-center min-h-[2.5rem]">
+              mb-6 flex items-center min-h-[2rem] sm:min-h-[2.5rem]">
               <span className="text-red-500 mr-2 shrink-0">&gt;</span>
               <span className="truncate">{typedTitle}</span>
-              <span className="inline-block w-0.5 h-6 sm:h-7 bg-red-500 ml-1 shrink-0 animate-pulse" />
+              <span className="inline-block w-0.5 h-5 sm:h-7 bg-red-500 ml-1 shrink-0 animate-pulse" />
             </h2>
 
-            <p className="text-base sm:text-lg text-gray-600 dark:text-muted-foreground mb-8 max-w-xl">
+            <p className="text-sm sm:text-base lg:text-lg text-gray-600 dark:text-muted-foreground mb-6 max-w-xl">
               Building secure, scalable web applications while defending systems against cyber threats.
               Combining development expertise with security-first thinking to deliver robust digital solutions.
             </p>
 
             {/* Stats */}
-            <div className="flex flex-wrap gap-2 sm:gap-3 mb-8">
+            <div className="flex flex-wrap gap-2 sm:gap-3 mb-6">
               {stats.map((s, i) => (
                 <motion.div key={s.label}
                   initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }}
@@ -193,14 +188,14 @@ export const Hero = () => {
             </div>
 
             {/* CTAs */}
-            <div className="flex flex-wrap gap-4 mb-8">
-              <Button variant="hero" asChild className="button-glow bg-red-500 hover:bg-red-600 text-white">
+            <div className="flex flex-wrap gap-3 mb-6">
+              <Button variant="hero" asChild className="button-glow bg-red-500 hover:bg-red-600 text-white text-sm sm:text-base">
                 <a href="#projects">
-                  View Projects <ArrowRight className="ml-2 h-5 w-5" />
+                  View Projects <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
                 </a>
               </Button>
               <Button variant="outline" size="lg" asChild
-                className="button-glow border-red-300 dark:border-red-500/50 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10">
+                className="button-glow border-red-300 dark:border-red-500/50 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 text-sm sm:text-base">
                 <a href="#contact">Contact Me</a>
               </Button>
             </div>
@@ -208,49 +203,55 @@ export const Hero = () => {
             {/* Socials */}
             <div className="flex gap-4">
               <a href="https://github.com/glorisonglotech" target="_blank" rel="noopener noreferrer"
-                className="text-gray-500 dark:text-muted-foreground hover:text-red-500 dark:hover:text-primary transition-smooth" aria-label="GitHub">
-                <Github className="h-6 w-6" />
+                className="text-gray-500 dark:text-muted-foreground hover:text-red-500 transition-smooth" aria-label="GitHub">
+                <Github className="h-5 w-5 sm:h-6 sm:w-6" />
               </a>
               <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"
-                className="text-gray-500 dark:text-muted-foreground hover:text-red-500 dark:hover:text-primary transition-smooth" aria-label="LinkedIn">
-                <Linkedin className="h-6 w-6" />
+                className="text-gray-500 dark:text-muted-foreground hover:text-red-500 transition-smooth" aria-label="LinkedIn">
+                <Linkedin className="h-5 w-5 sm:h-6 sm:w-6" />
               </a>
               <a href="https://x.com/glorison01" target="_blank" rel="noopener noreferrer"
-                className="text-gray-500 dark:text-muted-foreground hover:text-red-500 dark:hover:text-primary transition-smooth" aria-label="Twitter">
-                <Twitter className="h-6 w-6" />
+                className="text-gray-500 dark:text-muted-foreground hover:text-red-500 transition-smooth" aria-label="Twitter">
+                <Twitter className="h-5 w-5 sm:h-6 sm:w-6" />
               </a>
             </div>
           </motion.div>
 
-          {/* RIGHT — code card */}
-          <motion.div className="hidden sm:flex justify-center lg:justify-end"
+          {/* RIGHT — code card (visible on ALL screen sizes now) */}
+          <motion.div
+            className="flex justify-center lg:justify-end"
             initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.2 }}>
-            <div className="relative w-full max-w-sm lg:max-w-md">
-              <div className="absolute inset-0 bg-red-500/10 dark:bg-primary/20 rounded-3xl blur-3xl" />
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <div className="relative w-full max-w-xs sm:max-w-sm lg:max-w-md">
+              <div className="absolute inset-0 bg-red-500/10 dark:bg-primary/20 rounded-2xl sm:rounded-3xl blur-3xl" />
 
-              <motion.div className="absolute -inset-3 rounded-3xl border border-red-400/30 dark:border-red-500/30"
+              {/* Scan rings */}
+              <motion.div className="absolute -inset-2 sm:-inset-3 rounded-2xl sm:rounded-3xl border border-red-400/30 dark:border-red-500/30"
                 animate={{ opacity: [0.3, 0.7, 0.3], scale: [1, 1.02, 1] }}
                 transition={{ duration: 3, repeat: Infinity }} />
-              <motion.div className="absolute -inset-6 rounded-3xl border border-red-400/15 dark:border-red-500/15"
+              <motion.div className="absolute -inset-4 sm:-inset-6 rounded-2xl sm:rounded-3xl border border-red-400/15 dark:border-red-500/15"
                 animate={{ opacity: [0.15, 0.4, 0.15], scale: [1, 1.04, 1] }}
                 transition={{ duration: 3, repeat: Infinity, delay: 0.5 }} />
 
               <div className="relative
                 bg-white/80 dark:bg-card/50
-                backdrop-blur-sm rounded-3xl p-8 lg:p-12
+                backdrop-blur-sm rounded-2xl sm:rounded-3xl
+                p-5 sm:p-8 lg:p-10
                 border-2 border-red-500
                 shadow-lg shadow-red-500/30 dark:shadow-red-500/70"
               >
                 {/* Terminal dots */}
-                <div className="flex items-center gap-2 mb-1">
-                  <div className="w-3 h-3 rounded-full bg-red-500" />
-                  <div className="w-3 h-3 rounded-full bg-yellow-500" />
-                  <div className="w-3 h-3 rounded-full bg-green-500" />
-                  <span className="ml-2 font-mono text-xs text-gray-500 dark:text-muted-foreground">~/glorison — zsh</span>
+                <div className="flex items-center gap-1.5 sm:gap-2 mb-3 sm:mb-4">
+                  <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-red-500" />
+                  <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-yellow-500" />
+                  <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-green-500" />
+                  <span className="ml-1 sm:ml-2 font-mono text-xs text-gray-500 dark:text-muted-foreground truncate">
+                    ~/glorison — zsh
+                  </span>
                 </div>
 
-                <div className="space-y-3 font-mono text-sm lg:text-base mt-4">
+                <div className="space-y-2 sm:space-y-3 font-mono text-xs sm:text-sm lg:text-base">
                   <motion.div initial={{ width: 0 }} animate={{ width: "100%" }}
                     transition={{ duration: 2, delay: 0.5 }} className="overflow-hidden">
                     <code className="text-gray-500 dark:text-muted-foreground">
@@ -259,6 +260,7 @@ export const Hero = () => {
                       = <span className="text-yellow-600 dark:text-yellow-400">{"{"}</span>
                     </code>
                   </motion.div>
+
                   {[
                     { key: "name",     val: '"Glorison Ouma"',    delay: 1.5 },
                     { key: "role",     val: '"MERN Developer"',   delay: 2   },
@@ -266,7 +268,7 @@ export const Hero = () => {
                     { key: "passion",  val: '"Secure code"',      delay: 3   },
                   ].map(({ key, val, delay }) => (
                     <motion.div key={key} initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-                      transition={{ duration: 0.5, delay }} className="pl-4">
+                      transition={{ duration: 0.5, delay }} className="pl-3 sm:pl-4">
                       <code className="text-gray-500 dark:text-muted-foreground">
                         {key}:{" "}
                         <span className="text-green-600 dark:text-green-400">{val}</span>
@@ -274,23 +276,25 @@ export const Hero = () => {
                       </code>
                     </motion.div>
                   ))}
+
                   <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
                     transition={{ duration: 0.5, delay: 3.5 }}>
                     <code className="text-yellow-600 dark:text-yellow-400">{"}"}</code>
                   </motion.div>
+
                   <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
                     transition={{ duration: 0.5, delay: 4.2 }}
                     className="pt-2 border-t border-red-300 dark:border-red-500/20">
                     <code className="text-xs text-green-600 dark:text-green-400">
-                      ✓ All systems secure · TLS 1.3 · OWASP compliant
+                      ✓ TLS 1.3 · OWASP compliant · Secure
                     </code>
                   </motion.div>
                 </div>
 
-                <motion.div className="mt-6 flex justify-center gap-4"
-                  animate={{ y: [0, -10, 0] }} transition={{ duration: 2, repeat: Infinity }}>
-                  <Code2 className="h-10 w-10 text-red-500" />
-                  <Shield className="h-10 w-10 text-red-500" />
+                <motion.div className="mt-4 sm:mt-6 flex justify-center gap-3 sm:gap-4"
+                  animate={{ y: [0, -8, 0] }} transition={{ duration: 2, repeat: Infinity }}>
+                  <Code2 className="h-7 w-7 sm:h-10 sm:w-10 text-red-500" />
+                  <Shield className="h-7 w-7 sm:h-10 sm:w-10 text-red-500" />
                 </motion.div>
               </div>
             </div>
