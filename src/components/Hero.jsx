@@ -102,7 +102,7 @@ export const Hero = () => {
   return (
     <section
       id="home"
-      className="min-h-screen gradient-hero flex items-center pt-1 relative overflow-hidden"
+      className="min-h-screen gradient-hero flex items-center pt-10 relative overflow-hidden"
     >
       <HeroParticles />
 
