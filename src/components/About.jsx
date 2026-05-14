@@ -4,25 +4,25 @@ import "react-vertical-timeline-component/style.min.css";
 import { motion } from "framer-motion";
 
 const devSkills = [
-  { name: "React",   icon: Code2 },
+  { name: "React", icon: Code2 },
   { name: "Node.js", icon: Zap },
   { name: "Express", icon: Globe },
   { name: "MongoDB", icon: Database },
-  { name: "Git",     icon: GitBranch },
-  { name: "AWS",     icon: Cloud },
+  { name: "Git", icon: GitBranch },
+  { name: "AWS", icon: Cloud },
 ];
 
 const securitySkills = [
-  { name: "Pen Testing",      icon: Bug },
+  { name: "Pen Testing", icon: Bug },
   { name: "Network Security", icon: Network },
-  { name: "SIEM/SOC",         icon: Shield },
-  { name: "Cryptography",     icon: Lock },
-  { name: "Wireshark",        icon: Globe },
-  { name: "Burp Suite",       icon: Code2 },
+  { name: "SIEM/SOC", icon: Shield },
+  { name: "Cryptography", icon: Lock },
+  { name: "Wireshark", icon: Globe },
+  { name: "Burp Suite", icon: Code2 },
 ];
 
 const experience = [
-    
+
   {
     title: "Mern Stack Developer",
     company: "Digital Innovations",
@@ -38,18 +38,18 @@ const experience = [
 ];
 
 const education = [
-    {
+  {
     degree: "Google Professional Certificate (Cybersecurity)",
     school: "Google / ITExperience ",
     period: "2026 - Present",
     description: "Professional training in SIEM tools, IDS, and Python for cybersecurity. Focusing on industry-standard incident detection and response protocols.",
-    },
-    {
-  degree: "Security Analyst Specialization",
-  school: "Cyber Shujaa",
-  period: "2026 - Present",
-  description: "Specializing in SOC operations and defensive security. Focused on attaining core competencies in threat detection, incident response, and security monitoring through the structured Cyber Shujaa training framework.",
-},
+  },
+  {
+    degree: "Security Analyst Specialization",
+    school: "Cyber Shujaa",
+    period: "2026 - Present",
+    description: "Specializing in SOC operations and defensive security. Focused on attaining core competencies in threat detection, incident response, and security monitoring through the structured Cyber Shujaa training framework.",
+  },
   {
     degree: "Cisco Ethical Hacker course",
     school: "Cisco",
@@ -129,7 +129,7 @@ const SkillCard = ({ skill, index }) => {
 // ── Section divider (matches Services style) ──────────────────────
 const SectionLabel = ({ icon: Icon, label, color = "red" }) => {
   const colors = {
-    red:   { icon: "text-red-500",          border: "border-red-300 dark:border-red-500/30",   bg: "bg-white/70 dark:bg-black/40", text: "text-red-600 dark:text-red-400",   line: "from-red-400/50" },
+    red: { icon: "text-red-500", border: "border-red-300 dark:border-red-500/30", bg: "bg-white/70 dark:bg-black/40", text: "text-red-600 dark:text-red-400", line: "from-red-400/50" },
     green: { icon: "text-green-600 dark:text-green-400", border: "border-green-300 dark:border-green-500/30", bg: "bg-white/70 dark:bg-black/40", text: "text-green-700 dark:text-green-400", line: "from-green-400/50" },
   };
   const c = colors[color];
@@ -220,20 +220,13 @@ export const About = () => {
             </div>
 
             <p className="text-sm sm:text-base lg:text-lg text-gray-600 dark:text-muted-foreground leading-relaxed mb-5">
-              I'm a Full Stack Developer specializing in the MERN stack (MongoDB, Express.js, React, Node.js)
-              and a Certified Junior Cybersecurity Associate. With over 1 year of professional experience,
-              I've worked on projects ranging from small startups to large enterprise applications.
+              I am a <strong>Cybersecurity Professional</strong> and <strong>MERN Stack Developer</strong> dedicated to building and securing the digital landscape. With a foundation in the MERN stack and specialized training from <strong>Cybershujaa</strong> and<strong>Google Certified Cybersecurity Professional</strong>, I bridge the gap between robust software engineering and proactive defense.
             </p>
             <p className="text-sm sm:text-base lg:text-lg text-gray-600 dark:text-muted-foreground leading-relaxed mb-5">
-              My dual focus lies in building secure, scalable web applications and defending systems against
-              evolving cyber threats. I combine development expertise with security-first thinking to deliver
-              robust solutions that protect both data and users.
+              My expertise lies in <strong>offensive security</strong>, penetration testing, and developing secure, scalable web applications. 
             </p>
             <p className="text-sm sm:text-base lg:text-lg text-gray-600 dark:text-muted-foreground leading-relaxed">
-              I'm passionate about writing clean, maintainable code and creating intuitive user experiences.
-              I believe in continuous learning and staying up-to-date with the latest web technologies and
-              security practices. When I'm not coding, you can find me completing CTF challenges, contributing
-              to open-source projects, or writing technical blog posts.
+              I thrive on solving complex problems, whether it's engineering a secure JWT-based authentication system or navigating a <strong>CTF challenge</strong> on TryHackMe. I am committed to continuous learning in the ever-evolving fields of network reconnaissance, ethical hacking, and modern web technologies.
             </p>
 
             {/* Status line */}
