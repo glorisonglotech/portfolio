@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Award, ExternalLink, Calendar, Shield, Code2, X, ZoomIn } from "lucide-react";
 import cybersecJ from "@/assets/cybersecJ.jpg";
+import cybershujaa from '@/assets/cybershujaa.png'
 import plp from "@/assets/plp.jpg";
 import ajira from "@/assets/ajira.jpg";
 import javascript from "@/assets/javascript.jpg";
@@ -50,6 +51,16 @@ const cybersecurityCertifications = [
     icon: Shield,
     image: cybersecJ,
   },
+  {
+    title: "Security Analyst",
+    issuer: "Cyber Shujaa Program (USIU-Africa, Serianu Ltd & Kenya Bankers Association)",
+    date: "2026",
+    credentialId: "CS2026-UB26042709144591 79",
+    credentialUrl: "#",
+    skills: ["Network Defense", "Penetration Testing", "Vulnerability Analysis", "Security Operations"],
+    icon: Shield,
+    image: cybershujaa,
+  }
 ];
 
 // Scan line — consistent with rest of portfolio
@@ -66,7 +77,7 @@ const ScanLine = () => (
 const SectionLabel = ({ icon: Icon, label, color }) => {
   const styles = {
     green: { icon: "text-green-600 dark:text-green-400", border: "border-green-300 dark:border-green-500/30", bg: "bg-white/70 dark:bg-black/40", text: "text-green-700 dark:text-green-400", line: "from-green-400/50" },
-    red:   { icon: "text-red-500",                       border: "border-red-300 dark:border-red-500/30",   bg: "bg-white/70 dark:bg-black/40", text: "text-red-600 dark:text-red-400",   line: "from-red-400/50"   },
+    red: { icon: "text-red-500", border: "border-red-300 dark:border-red-500/30", bg: "bg-white/70 dark:bg-black/40", text: "text-red-600 dark:text-red-400", line: "from-red-400/50" },
   };
   const c = styles[color];
   return (
@@ -354,9 +365,9 @@ export const Certifications = () => {
           className="mt-14 flex flex-wrap items-center justify-center gap-4 sm:gap-8 border-t border-red-200 dark:border-red-500/10 pt-8"
         >
           {[
-            { label: "Dev Certs",   value: `${developerCertifications.length}`,     dot: "bg-green-500" },
-            { label: "Cyber Certs", value: `${cybersecurityCertifications.length}`, dot: "bg-red-500"   },
-            { label: "Status",      value: "All Verified",                           dot: "bg-blue-500"  },
+            { label: "Dev Certs", value: `${developerCertifications.length}`, dot: "bg-green-500" },
+            { label: "Cyber Certs", value: `${cybersecurityCertifications.length}`, dot: "bg-red-500" },
+            { label: "Status", value: "All Verified", dot: "bg-blue-500" },
           ].map(item => (
             <div key={item.label} className="flex items-center gap-2">
               <span className={`inline-block w-2 h-2 rounded-full ${item.dot} animate-pulse`} />
