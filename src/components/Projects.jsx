@@ -8,6 +8,22 @@ import ominbiz from "@/assets/ominbiz.png";
 import glomovie from "@/assets/glomovie.png";
 import glovcf from "@/assets/glovcf.png";
 
+// Touch devices never fire hover, so effects gated on hover must have a
+// visible-by-default fallback on phones.
+const useCanHover = () => {
+  const [canHover, setCanHover] = useState(true);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const update = () => setCanHover(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
+  return canHover;
+};
+
 // ── Dev projects ──────────────────────────────────────────────────
 const devProjects = [
   {
@@ -161,10 +177,12 @@ const ScanLine = () => (
 );
 
 // ── Animated terminal output for cyber cards ──────────────────────
-const CyberTerminal = ({ findings, isHovered }) => {
+const CyberTerminal = ({ findings, isHovered, canHover }) => {
   const [visibleLines, setVisibleLines] = useState(0);
 
   useEffect(() => {
+    // No hover available: show every line instead of an empty panel.
+    if (!canHover) { setVisibleLines(findings.length); return; }
     if (!isHovered) { setVisibleLines(0); return; }
     setVisibleLines(0);
     let i = 0;
@@ -174,10 +192,10 @@ const CyberTerminal = ({ findings, isHovered }) => {
       if (i >= findings.length) clearInterval(timer);
     }, 280);
     return () => clearInterval(timer);
-  }, [isHovered, findings]);
+  }, [isHovered, findings, canHover]);
 
   return (
-    <div className="relative aspect-video bg-gray-950 dark:bg-black overflow-hidden flex flex-col">
+    <div className="relative w-full bg-gray-950 dark:bg-black flex flex-col">
       {/* Terminal header */}
       <div className="flex items-center gap-2 px-3 py-2 bg-gray-900 dark:bg-black border-b border-red-500/20 shrink-0">
         <div className="w-2 h-2 rounded-full bg-red-500" />
@@ -191,8 +209,8 @@ const CyberTerminal = ({ findings, isHovered }) => {
       </div>
 
       {/* Terminal body */}
-      <div className="flex-1 p-4 font-mono text-xs overflow-hidden">
-        <div className="text-green-400 mb-2">$ ./scanner --target webapp --verbose</div>
+      <div className="flex-1 p-3.5 sm:p-4 font-mono text-[11px] sm:text-xs">
+        <div className="text-green-400 mb-2 truncate">$ ./scanner --target webapp --verbose</div>
         <AnimatePresence>
           {findings.map((line, i) =>
             i < visibleLines ? (
@@ -204,7 +222,7 @@ const CyberTerminal = ({ findings, isHovered }) => {
                 className="flex items-start gap-2 mb-1"
               >
                 <CheckCircle className="h-3 w-3 text-red-400 mt-0.5 shrink-0" />
-                <span className="text-gray-300">{line}</span>
+                <span className="text-gray-300 leading-snug break-words">{line}</span>
               </motion.div>
             ) : null
           )}
@@ -271,21 +289,21 @@ const DevCard = ({ project, index }) => {
           </motion.div>
         </div>
 
-        <div className="p-5 sm:p-6 flex flex-col flex-1">
-          <h3 className="text-lg sm:text-xl font-bold mb-2 text-gray-900 dark:text-foreground">{project.title}</h3>
-          <p className="text-sm text-gray-500 dark:text-muted-foreground leading-relaxed mb-4 flex-1">{project.description}</p>
-          <div className="flex flex-wrap gap-1.5 mb-5">
+        <div className="p-4 sm:p-6 flex flex-col flex-1">
+          <h3 className="text-base sm:text-xl font-bold mb-2 leading-snug text-gray-900 dark:text-foreground">{project.title}</h3>
+          <p className="text-[13px] sm:text-sm text-gray-500 dark:text-muted-foreground leading-relaxed mb-3.5 sm:mb-4 flex-1">{project.description}</p>
+          <div className="flex flex-wrap gap-1.5 mb-4 sm:mb-5">
             {project.tags.map(tag => (
               <span key={tag} className="font-mono text-xs px-2 py-0.5 rounded bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/25 text-red-600 dark:text-red-400">{tag}</span>
             ))}
           </div>
-          <div className="border-t border-red-100 dark:border-red-500/10 pt-4 flex gap-3">
-            <Button size="sm" className="bg-red-500 hover:bg-red-600 text-white flex-1 text-xs sm:text-sm" asChild>
+          <div className="border-t border-red-100 dark:border-red-500/10 pt-3.5 sm:pt-4 flex gap-2 sm:gap-3">
+            <Button size="sm" className="bg-red-500 hover:bg-red-600 text-white flex-1 h-9 px-2 text-[11px] sm:text-sm" asChild>
               <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
                 <ExternalLink className="mr-1.5 h-3.5 w-3.5" /> Live Demo
               </a>
             </Button>
-            <Button variant="outline" size="sm" className="border-red-300 dark:border-red-500/40 text-red-600 dark:text-red-400 hover:bg-red-500 hover:text-white hover:border-red-500 flex-1 text-xs sm:text-sm" asChild>
+            <Button variant="outline" size="sm" className="border-red-300 dark:border-red-500/40 text-red-600 dark:text-red-400 hover:bg-red-500 hover:text-white hover:border-red-500 flex-1 h-9 px-2 text-[11px] sm:text-sm" asChild>
               <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
                 <Github className="mr-1.5 h-3.5 w-3.5" /> GitHub
               </a>
@@ -303,6 +321,7 @@ const DevCard = ({ project, index }) => {
 // ── Cyber project card ────────────────────────────────────────────
 const CyberCard = ({ project, index }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const canHover = useCanHover();
   const sc = severityConfig[project.severity];
   const Icon = project.icon;
 
@@ -327,27 +346,27 @@ const CyberCard = ({ project, index }) => {
         <span className="absolute top-2 right-2 font-mono text-xs text-red-300 dark:text-red-500/30 group-hover:text-red-400 dark:group-hover:text-red-500/60 transition-colors z-10">]</span>
 
         {/* Terminal visual replaces image */}
-        <CyberTerminal findings={project.findings} isHovered={isHovered} />
+        <CyberTerminal findings={project.findings} isHovered={isHovered} canHover={canHover} />
 
-        <div className="p-5 sm:p-6 flex flex-col flex-1">
+        <div className="p-4 sm:p-6 flex flex-col flex-1">
           {/* Top row: icon + type + severity */}
-          <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-2">
-              <div className={`w-8 h-8 rounded-lg flex items-center justify-center border transition-all duration-300
+          <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+            <div className="flex items-center gap-2 min-w-0">
+              <div className={`w-8 h-8 rounded-lg flex items-center justify-center border transition-all duration-300 shrink-0
                 ${isHovered ? "bg-red-500 border-red-500" : "bg-red-50 dark:bg-red-500/10 border-red-200 dark:border-red-500/30"}`}>
                 <Icon className={`h-4 w-4 transition-colors duration-300 ${isHovered ? "text-white" : "text-red-500"}`} />
               </div>
-              <span className="font-mono text-xs text-red-600 dark:text-red-400 font-bold tracking-widest">{project.type}</span>
+              <span className="font-mono text-[10px] sm:text-xs text-red-600 dark:text-red-400 font-bold tracking-widest">{project.type}</span>
             </div>
-            <div className={`flex items-center gap-1.5 px-2 py-1 rounded-md border ${sc.border} ${sc.badge}`}
+            <div className={`flex items-center gap-1.5 px-2 py-1 rounded-md border shrink-0 ${sc.border} ${sc.badge}`}
               title="Highest severity identified in this engagement">
               <span className={`inline-block w-1.5 h-1.5 rounded-full ${sc.dot} ${sc.pulse ? "animate-pulse" : ""}`} />
               <span className={`font-mono text-xs font-bold ${sc.text}`}>{project.severity}</span>
             </div>
           </div>
 
-          <h3 className="text-lg sm:text-xl font-bold mb-2 text-gray-900 dark:text-foreground">{project.title}</h3>
-          <p className="text-sm text-gray-500 dark:text-muted-foreground leading-relaxed mb-4 flex-1">{project.description}</p>
+          <h3 className="text-base sm:text-xl font-bold mb-2 leading-snug text-gray-900 dark:text-foreground">{project.title}</h3>
+          <p className="text-[13px] sm:text-sm text-gray-500 dark:text-muted-foreground leading-relaxed mb-3.5 sm:mb-4 flex-1">{project.description}</p>
 
           <div className="flex flex-wrap gap-1.5 mb-4">
             {project.tags.map(tag => (
@@ -355,13 +374,13 @@ const CyberCard = ({ project, index }) => {
             ))}
           </div>
 
-          <div className="border-t border-red-100 dark:border-red-500/10 pt-4 flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-500" />
-              <span className="font-mono text-xs text-green-600 dark:text-green-400">{project.status}</span>
+          <div className="border-t border-red-100 dark:border-red-500/10 pt-3.5 sm:pt-4 flex flex-wrap items-center justify-between gap-2">
+            <div className="flex items-center gap-2 min-w-0">
+              <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-500 shrink-0" />
+              <span className="font-mono text-[11px] sm:text-xs text-green-600 dark:text-green-400 truncate">{project.status}</span>
             </div>
             <Button variant="outline" size="sm"
-              className="border-red-300 dark:border-red-500/40 text-red-600 dark:text-red-400 hover:bg-red-500 hover:text-white hover:border-red-500 text-xs"
+              className="border-red-300 dark:border-red-500/40 text-red-600 dark:text-red-400 hover:bg-red-500 hover:text-white hover:border-red-500 h-9 px-2 text-[11px] sm:text-xs"
               asChild>
               <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
                 <Github className="mr-1.5 h-3.5 w-3.5" /> GitHub
@@ -386,7 +405,7 @@ export const Projects = () => {
   const totalShown = activeTab === "dev" ? filteredDev.length : cyberProjects.length;
 
   return (
-    <section id="projects" className="py-20 bg-secondary/30 relative overflow-hidden">
+    <section id="projects" className="py-16 sm:py-20 bg-secondary/30 relative overflow-hidden">
 
       <div className="absolute inset-0 pointer-events-none opacity-[0.04] dark:opacity-[0.03]"
         style={{ backgroundImage: "linear-gradient(rgba(239,68,68,0.8) 1px,transparent 1px),linear-gradient(90deg,rgba(239,68,68,0.8) 1px,transparent 1px)", backgroundSize: "40px 40px" }} />
@@ -399,14 +418,14 @@ export const Projects = () => {
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="text-center mb-12">
           <div className="inline-flex items-center gap-2 bg-white/70 dark:bg-black/40 border border-red-300 dark:border-red-500/30 rounded-full px-4 py-1.5 mb-5 backdrop-blur-sm">
             <span className="inline-block w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-            <span className="font-mono text-xs text-red-600 dark:text-red-400 tracking-widest uppercase">
+            <span className="font-mono text-[11px] sm:text-xs text-red-600 dark:text-red-400 tracking-widest uppercase">
               projects.log — {totalShown} entries
             </span>
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 text-gray-900 dark:text-white">
             Featured <span className="text-red-500 font-mono">[Projects]</span>
           </h2>
-          <p className="text-base sm:text-lg text-gray-600 dark:text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-sm sm:text-lg text-gray-600 dark:text-muted-foreground max-w-2xl mx-auto px-1">
             Selected build work and security engagements — the problem, the approach, the tools, and what came out of it
           </p>
         </motion.div>
@@ -414,7 +433,7 @@ export const Projects = () => {
         {/* ── Main tab toggle: Dev vs Cyber ── */}
         <motion.div initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.1 }}
           className="flex justify-center mb-8">
-          <div className="inline-flex rounded-xl border border-red-200 dark:border-red-500/25 bg-white/60 dark:bg-black/30 p-1 gap-1 backdrop-blur-sm">
+          <div className="flex sm:inline-flex w-full sm:w-auto rounded-xl border border-red-200 dark:border-red-500/25 bg-white/60 dark:bg-black/30 p-1 gap-1 backdrop-blur-sm">
             {[
               { key: "dev",   label: "Dev Projects",   icon: Code2   },
               { key: "cyber", label: "Cyber Projects",  icon: Shield  },
@@ -422,14 +441,14 @@ export const Projects = () => {
               const active = activeTab === key;
               return (
                 <button key={key} onClick={() => setActiveTab(key)}
-                  className={`flex items-center gap-2 px-5 py-2.5 rounded-lg font-mono text-xs sm:text-sm font-semibold transition-all duration-200
+                  className={`flex flex-1 sm:flex-none items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-5 py-2.5 rounded-lg font-mono text-[11px] sm:text-sm font-semibold whitespace-nowrap transition-all duration-200
                     ${active
                       ? "bg-red-500 text-white shadow-lg shadow-red-500/25"
                       : "text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-black/50"}`}
                 >
-                  <Icon className="h-4 w-4" />
+                  <Icon className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
                   {label}
-                  {active && <span className="inline-block w-1.5 h-1.5 rounded-full bg-white/80 animate-pulse" />}
+                  {active && <span className="hidden sm:inline-block w-1.5 h-1.5 rounded-full bg-white/80 animate-pulse" />}
                 </button>
               );
             })}
@@ -444,20 +463,20 @@ export const Projects = () => {
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.25 }}
-              className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-10 overflow-hidden"
+              className="flex flex-wrap justify-center gap-1.5 sm:gap-3 mb-8 sm:mb-10 overflow-hidden"
             >
               {devCategories.map(({ label, icon: Icon }) => {
                 const active = devCategory === label;
                 return (
                   <button key={label} onClick={() => setDevCategory(label)}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-lg font-mono text-xs sm:text-sm font-semibold border transition-all duration-200
+                    className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg font-mono text-[11px] sm:text-sm font-semibold border whitespace-nowrap transition-all duration-200
                       ${active
                         ? "bg-red-500 border-red-500 text-white shadow-lg shadow-red-500/25"
                         : "bg-white/70 dark:bg-black/30 border-red-200 dark:border-red-500/25 text-red-600 dark:text-red-400 hover:border-red-500 hover:bg-red-50 dark:hover:bg-black/50"}`}
                   >
-                    <Icon className="h-3.5 w-3.5" />
+                    <Icon className="h-3.5 w-3.5 shrink-0" />
                     {label}
-                    {active && <span className="inline-block w-1.5 h-1.5 rounded-full bg-white/80 animate-pulse" />}
+                    {active && <span className="hidden sm:inline-block w-1.5 h-1.5 rounded-full bg-white/80 animate-pulse" />}
                   </button>
                 );
               })}
@@ -473,7 +492,7 @@ export const Projects = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.3 }}
-            className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8"
+            className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 lg:gap-8"
           >
             {activeTab === "dev"
               ? filteredDev.map((p, i) => <DevCard key={p.id} project={p} index={i} />)
@@ -484,7 +503,7 @@ export const Projects = () => {
 
         {/* Footer status */}
         <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.4 }}
-          className="mt-14 flex flex-wrap items-center justify-center gap-4 sm:gap-8 border-t border-red-200 dark:border-red-500/10 pt-8"
+          className="mt-12 sm:mt-14 flex flex-wrap items-center justify-center gap-3 sm:gap-8 border-t border-red-200 dark:border-red-500/10 pt-7 sm:pt-8"
         >
           {[
             { label: "Showing", value: `${totalShown} projects`, dot: "bg-green-500" },
@@ -493,7 +512,7 @@ export const Projects = () => {
           ].map(item => (
             <div key={item.label} className="flex items-center gap-2">
               <span className={`inline-block w-2 h-2 rounded-full ${item.dot} animate-pulse`} />
-              <span className="font-mono text-xs text-gray-500 dark:text-muted-foreground">
+              <span className="font-mono text-[11px] sm:text-xs text-gray-500 dark:text-muted-foreground">
                 {item.label}:{" "}
                 <span className="text-gray-900 dark:text-foreground font-bold">{item.value}</span>
               </span>

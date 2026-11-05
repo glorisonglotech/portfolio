@@ -93,7 +93,7 @@ const AnimatedBar = ({ level, color }) => {
   }, [level]);
 
   return (
-    <div ref={ref} className={`relative h-2 rounded-full overflow-hidden ${c.track}`}>
+    <div ref={ref} className={`relative h-1.5 sm:h-2 rounded-full overflow-hidden ${c.track}`}>
       <motion.div
         className={`absolute left-0 top-0 h-full rounded-full ${c.bar}`}
         initial={{ width: 0 }}
@@ -128,7 +128,7 @@ const SkillCard = ({ category, index }) => {
       className="group relative cursor-default"
     >
       <div className={`
-        relative rounded-xl border p-5 sm:p-6 h-full
+        relative rounded-xl border p-4 sm:p-6 h-full
         backdrop-blur-sm overflow-hidden transition-all duration-300
         ${isHovered
           ? `${c.border} shadow-lg bg-white/90 dark:bg-black/50`
@@ -151,15 +151,15 @@ const SkillCard = ({ category, index }) => {
         <span className="absolute top-2 right-2 font-mono text-xs text-red-300 dark:text-red-500/30 group-hover:text-red-400 dark:group-hover:text-red-500/60 transition-colors">]</span>
 
         {/* Header */}
-        <div className="flex items-center gap-3 mb-5 mt-1">
-          <div className={`w-9 h-9 rounded-lg flex items-center justify-center border transition-all duration-300 ${c.border} ${c.iconBg} ${isHovered ? "scale-110" : ""}`}>
+        <div className="flex items-center gap-2.5 sm:gap-3 mb-4 sm:mb-5 mt-1">
+          <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-lg flex items-center justify-center border transition-all duration-300 shrink-0 ${c.border} ${c.iconBg} ${isHovered ? "scale-110" : ""}`}>
             <Icon className={`h-4 w-4 ${c.icon}`} style={{ height: "1.1rem", width: "1.1rem" }} />
           </div>
-          <div>
-            <h3 className="font-bold text-sm sm:text-base text-gray-900 dark:text-foreground leading-tight">
+          <div className="min-w-0">
+            <h3 className="font-bold text-sm sm:text-base text-gray-900 dark:text-foreground leading-snug">
               {category.title}
             </h3>
-            <span className={`font-mono text-xs ${c.text}`}>
+            <span className={`font-mono text-[11px] sm:text-xs ${c.text}`}>
               {category.skills.length} skills
             </span>
           </div>
@@ -169,12 +169,12 @@ const SkillCard = ({ category, index }) => {
         <div className="space-y-4">
           {category.skills.map((skill) => (
             <div key={skill.name}>
-              <div className="flex justify-between items-center mb-1.5">
-                <span className="text-xs sm:text-sm font-medium text-gray-700 dark:text-foreground font-mono">
+              <div className="flex items-start justify-between gap-2 mb-1.5">
+                <span className="flex-1 min-w-0 text-[11px] sm:text-sm font-medium text-gray-700 dark:text-foreground font-mono leading-snug break-words">
                   {skill.name}
                 </span>
-                <div className={`flex items-center gap-1 px-1.5 py-0.5 rounded ${c.iconBg} border ${c.border}`}>
-                  <span className={`font-mono text-xs font-bold ${c.text}`}>{skill.level}%</span>
+                <div className={`flex items-center gap-1 px-1.5 py-0.5 rounded shrink-0 ${c.iconBg} border ${c.border}`}>
+                  <span className={`font-mono text-[10px] sm:text-xs font-bold ${c.text}`}>{skill.level}%</span>
                 </div>
               </div>
               <AnimatedBar level={skill.level} color={category.color} />
@@ -183,9 +183,9 @@ const SkillCard = ({ category, index }) => {
         </div>
 
         {/* Bottom status */}
-        <div className="mt-5 pt-4 border-t border-red-100 dark:border-red-500/10 flex items-center gap-2">
-          <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-500" />
-          <span className="font-mono text-xs text-green-600 dark:text-green-400/70">
+        <div className="mt-4 sm:mt-5 pt-3.5 sm:pt-4 border-t border-red-100 dark:border-red-500/10 flex items-center gap-2">
+          <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-500 shrink-0" />
+          <span className="font-mono text-[11px] sm:text-xs text-green-600 dark:text-green-400/70">
             module.loaded — {Math.round(category.skills.reduce((a, s) => a + s.level, 0) / category.skills.length)}% avg
           </span>
         </div>
@@ -209,7 +209,7 @@ export const Skills = () => {
   );
 
   return (
-    <section id="skills" className="py-20 bg-background relative overflow-hidden">
+    <section id="skills" className="py-16 sm:py-20 bg-background relative overflow-hidden">
 
       {/* Background grid */}
       <div
@@ -240,7 +240,7 @@ export const Skills = () => {
             rounded-full px-4 py-1.5 mb-5 backdrop-blur-sm"
           >
             <span className="inline-block w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-            <span className="font-mono text-xs text-red-600 dark:text-red-400 tracking-widest uppercase">
+            <span className="font-mono text-[11px] sm:text-xs text-red-600 dark:text-red-400 tracking-widest uppercase">
               skills.scan — {skillCategories.length} modules loaded
             </span>
           </div>
@@ -249,13 +249,13 @@ export const Skills = () => {
             Skills &{" "}
             <span className="text-red-500 font-mono">[Expertise]</span>
           </h2>
-          <p className="text-base sm:text-lg text-gray-600 dark:text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-sm sm:text-lg text-gray-600 dark:text-muted-foreground max-w-2xl mx-auto">
             Security tooling alongside the engineering skills needed to fix what it finds
           </p>
         </motion.div>
 
         {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 max-w-6xl mx-auto">
           {skillCategories.map((cat, i) => (
             <SkillCard key={cat.title} category={cat} index={i} />
           ))}
@@ -267,7 +267,7 @@ export const Skills = () => {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.5 }}
-          className="mt-14 flex flex-wrap items-center justify-center gap-4 sm:gap-8 border-t border-red-200 dark:border-red-500/10 pt-8"
+          className="mt-12 sm:mt-14 flex flex-wrap items-center justify-center gap-3 sm:gap-8 border-t border-red-200 dark:border-red-500/10 pt-7 sm:pt-8"
         >
           {[
             { label: "Modules",       value: `${skillCategories.length} active`,                                   dot: "bg-green-500" },
@@ -276,7 +276,7 @@ export const Skills = () => {
           ].map(item => (
             <div key={item.label} className="flex items-center gap-2">
               <span className={`inline-block w-2 h-2 rounded-full ${item.dot} animate-pulse`} />
-              <span className="font-mono text-xs text-gray-500 dark:text-muted-foreground">
+              <span className="font-mono text-[11px] sm:text-xs text-gray-500 dark:text-muted-foreground">
                 {item.label}:{" "}
                 <span className="text-gray-900 dark:text-foreground font-bold">{item.value}</span>
               </span>

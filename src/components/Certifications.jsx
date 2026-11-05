@@ -90,14 +90,14 @@ const SectionLabel = ({ icon: Icon, label, color }) => {
       initial={{ opacity: 0, x: -20 }}
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true }}
-      className="flex items-center gap-3 mb-8"
+      className="flex items-center gap-2 sm:gap-3 mb-6 sm:mb-8"
     >
-      <div className={`flex items-center gap-2 ${c.bg} border ${c.border} rounded-lg px-3 py-1.5 backdrop-blur-sm`}>
-        <Icon className={`h-5 w-5 ${c.icon}`} />
-        <span className={`font-mono text-sm ${c.text} font-semibold tracking-wide`}>{label}</span>
+      <div className={`flex items-center gap-2 ${c.bg} border ${c.border} rounded-lg px-2.5 sm:px-3 py-1.5 backdrop-blur-sm`}>
+        <Icon className={`h-4 w-4 sm:h-5 sm:w-5 shrink-0 ${c.icon}`} />
+        <span className={`font-mono text-[11px] sm:text-sm ${c.text} font-semibold tracking-wide`}>{label}</span>
         {color === "red" && <span className="inline-block w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />}
       </div>
-      <div className={`flex-1 h-px bg-gradient-to-r ${c.line} to-transparent`} />
+      <div className={`hidden sm:block flex-1 h-px bg-gradient-to-r ${c.line} to-transparent`} />
     </motion.div>
   );
 };
@@ -111,7 +111,7 @@ const CertLightbox = ({ cert, onClose }) => (
     role="dialog"
     aria-modal="true"
     aria-label={`${cert.title} certificate`}
-    className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+    className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80 backdrop-blur-sm"
     onClick={onClose}
   >
     <motion.div
@@ -130,11 +130,11 @@ const CertLightbox = ({ cert, onClose }) => (
         <span className="ml-2 font-mono text-xs text-gray-400 truncate flex-1">
           ~/certs/{cert.title.toLowerCase().replace(/\s+/g, "-")}.jpg
         </span>
-        <button onClick={onClose} className="text-gray-400 hover:text-red-400 transition-colors ml-2">
+        <button onClick={onClose} aria-label="Close certificate" className="text-gray-400 hover:text-red-400 transition-colors ml-2 -mr-1 p-1.5 rounded hover:bg-white/10">
           <X className="h-4 w-4" />
         </button>
       </div>
-      <img src={cert.image} alt={cert.title} className="w-full object-contain bg-black max-h-[80vh]" />
+      <img src={cert.image} alt={cert.title} className="w-full object-contain bg-black max-h-[72vh] sm:max-h-[80vh]" />
     </motion.div>
   </motion.div>
 );
@@ -176,7 +176,7 @@ const CertificationCard = ({ cert, index }) => {
 
           {/* ── Certificate image preview ── */}
           <div
-            className="relative h-44 sm:h-48 overflow-hidden cursor-pointer group/img"
+            className="relative h-36 sm:h-48 overflow-hidden cursor-pointer"
             onClick={() => setShowLightbox(true)}
           >
             <img
@@ -186,6 +186,12 @@ const CertificationCard = ({ cert, index }) => {
             />
             {/* Dark overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+
+            {/* Tap hint for touch devices, where the hover overlay never appears */}
+            <div className="absolute right-2 bottom-2 flex items-center gap-1.5 px-2 py-1 rounded-md bg-black/60 backdrop-blur-sm border border-red-500/40 sm:hidden">
+              <ZoomIn className="h-3.5 w-3.5 text-red-400" />
+              <span className="font-mono text-[10px] text-red-400">view</span>
+            </div>
 
             {/* Hover zoom hint */}
             <motion.div
@@ -217,22 +223,22 @@ const CertificationCard = ({ cert, index }) => {
           </div>
 
           {/* ── Content ── */}
-          <div className="p-5 sm:p-6 flex flex-col flex-1">
+          <div className="p-4 sm:p-6 flex flex-col flex-1">
 
             {/* Icon + title row */}
-            <div className="flex items-start justify-between gap-3 mb-3">
-              <div className="flex items-center gap-3">
+            <div className="flex items-start justify-between gap-2 sm:gap-3 mb-3">
+              <div className="flex items-start gap-2.5 sm:gap-3 min-w-0">
                 <div className={`
-                  w-9 h-9 rounded-lg flex items-center justify-center border transition-all duration-300 shrink-0
+                  w-8 h-8 sm:w-9 sm:h-9 rounded-lg flex items-center justify-center border transition-all duration-300 shrink-0
                   ${isHovered ? "bg-red-500 border-red-500" : "bg-red-50 dark:bg-red-500/10 border-red-200 dark:border-red-500/30"}
                 `}>
                   <Icon className={`h-4 w-4 transition-colors duration-300 ${isHovered ? "text-white" : "text-red-500"}`} />
                 </div>
-                <div>
-                  <h3 className="font-bold text-sm sm:text-base text-gray-900 dark:text-foreground leading-snug">
+                <div className="min-w-0">
+                  <h3 className="font-bold text-[13px] sm:text-base text-gray-900 dark:text-foreground leading-snug break-words">
                     {cert.title}
                   </h3>
-                  <p className="text-xs text-red-600 dark:text-red-400 font-mono font-semibold mt-0.5">
+                  <p className="text-[11px] sm:text-xs text-red-600 dark:text-red-400 font-mono font-semibold mt-0.5 break-words">
                     {cert.issuer}
                   </p>
                 </div>
@@ -246,7 +252,7 @@ const CertificationCard = ({ cert, index }) => {
             </div>
 
             {/* Meta */}
-            <div className="flex flex-wrap items-center gap-3 mb-4 text-xs text-gray-500 dark:text-muted-foreground">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 mb-3.5 sm:mb-4 text-[11px] sm:text-xs text-gray-500 dark:text-muted-foreground">
               <div className="flex items-center gap-1.5">
                 <Calendar className="h-3.5 w-3.5" />
                 <span>
@@ -266,7 +272,7 @@ const CertificationCard = ({ cert, index }) => {
             <div className="flex flex-wrap gap-1.5 flex-1">
               {cert.skills.map((skill, idx) => (
                 <span key={idx}
-                  className="font-mono text-xs px-2 py-0.5 rounded
+                  className="font-mono text-[11px] sm:text-xs px-2 py-0.5 rounded
                     bg-red-50 dark:bg-red-500/10
                     border border-red-200 dark:border-red-500/25
                     text-red-600 dark:text-red-400"
@@ -277,10 +283,10 @@ const CertificationCard = ({ cert, index }) => {
             </div>
 
             {/* Status footer */}
-            <div className="mt-4 pt-3 border-t border-red-100 dark:border-red-500/10 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <span className={`inline-block w-1.5 h-1.5 rounded-full ${cert.status === "Completed" ? "bg-green-500" : "bg-yellow-500"}`} />
-                <span className={`font-mono text-xs ${cert.status === "Completed"
+            <div className="mt-3.5 sm:mt-4 pt-3 border-t border-red-100 dark:border-red-500/10 flex items-center justify-between gap-2">
+              <div className="flex items-center gap-2 min-w-0">
+                <span className={`inline-block w-1.5 h-1.5 rounded-full shrink-0 ${cert.status === "Completed" ? "bg-green-500" : "bg-yellow-500"}`} />
+                <span className={`font-mono text-[11px] sm:text-xs truncate ${cert.status === "Completed"
                   ? "text-green-600 dark:text-green-400"
                   : "text-yellow-600 dark:text-yellow-400"}`}>
                   {cert.status === "Completed" ? "cert.completed" : "cert.in_progress"}
@@ -288,7 +294,7 @@ const CertificationCard = ({ cert, index }) => {
               </div>
               <button
                 onClick={() => setShowLightbox(true)}
-                className="flex items-center gap-1.5 font-mono text-xs text-red-600 dark:text-red-400 hover:text-red-500 transition-colors"
+                className="flex items-center gap-1.5 font-mono text-[11px] sm:text-xs text-red-600 dark:text-red-400 hover:text-red-500 transition-colors py-1 shrink-0"
               >
                 <ZoomIn className="h-3.5 w-3.5" />
                 View cert
@@ -314,7 +320,7 @@ export const Certifications = () => {
   const totalCerts = developerCertifications.length + cybersecurityCertifications.length;
 
   return (
-    <section id="certifications" className="py-20 bg-secondary/20 relative overflow-hidden">
+    <section id="certifications" className="py-16 sm:py-20 bg-secondary/20 relative overflow-hidden">
 
       {/* Background grid */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.04] dark:opacity-[0.03]"
@@ -338,7 +344,7 @@ export const Certifications = () => {
             rounded-full px-4 py-1.5 mb-5 backdrop-blur-sm"
           >
             <span className="inline-block w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-            <span className="font-mono text-xs text-red-600 dark:text-red-400 tracking-widest uppercase">
+            <span className="font-mono text-[11px] sm:text-xs text-red-600 dark:text-red-400 tracking-widest uppercase">
               certs.db — {totalCerts} records found
             </span>
           </div>
@@ -346,15 +352,15 @@ export const Certifications = () => {
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 text-gray-900 dark:text-white">
             <span className="text-red-500 font-mono">[Certifications]</span>
           </h2>
-          <p className="text-base sm:text-lg text-gray-600 dark:text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-sm sm:text-lg text-gray-600 dark:text-muted-foreground max-w-2xl mx-auto">
             Industry training in security operations, offensive testing and software engineering — completed and in progress
           </p>
         </motion.div>
 
         {/* Dev certs */}
-        <div className="mb-14 max-w-6xl mx-auto">
+        <div className="mb-10 sm:mb-14 max-w-6xl mx-auto">
           <SectionLabel icon={Code2} label="Development Certifications" color="green" />
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
             {developerCertifications.map((cert, i) => (
               <CertificationCard key={`dev-${i}`} cert={cert} index={i} />
             ))}
@@ -364,7 +370,7 @@ export const Certifications = () => {
         {/* Cyber certs */}
         <div className="max-w-6xl mx-auto">
           <SectionLabel icon={Shield} label="Cybersecurity Certifications" color="red" />
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
             {cybersecurityCertifications.map((cert, i) => (
               <CertificationCard key={`cyber-${i}`} cert={cert} index={i} />
             ))}
@@ -377,7 +383,7 @@ export const Certifications = () => {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.4 }}
-          className="mt-14 flex flex-wrap items-center justify-center gap-4 sm:gap-8 border-t border-red-200 dark:border-red-500/10 pt-8"
+          className="mt-12 sm:mt-14 flex flex-wrap items-center justify-center gap-3 sm:gap-8 border-t border-red-200 dark:border-red-500/10 pt-7 sm:pt-8"
         >
           {[
             { label: "Dev Certs",   value: `${developerCertifications.length}`,      dot: "bg-green-500" },
@@ -386,7 +392,7 @@ export const Certifications = () => {
           ].map(item => (
             <div key={item.label} className="flex items-center gap-2">
               <span className={`inline-block w-2 h-2 rounded-full ${item.dot} animate-pulse`} />
-              <span className="font-mono text-xs text-gray-500 dark:text-muted-foreground">
+              <span className="font-mono text-[11px] sm:text-xs text-gray-500 dark:text-muted-foreground">
                 {item.label}:{" "}
                 <span className="text-gray-900 dark:text-foreground font-bold">{item.value}</span>
               </span>
