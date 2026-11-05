@@ -36,31 +36,32 @@ const useGlitch = (text, interval = 3200) => {
 };
 
 // ── Threat ticker ─────────────────────────────────────────────────
-const THREATS = [
-  { icon: <AlertTriangle className="h-3 w-3 shrink-0" />, msg: "SQL Injection attempt blocked — 192.168.4.21", color: "text-red-500 dark:text-red-400" },
-  { icon: <Wifi className="h-3 w-3 shrink-0" />,          msg: "Port scan detected on :443 — origin masked",   color: "text-yellow-600 dark:text-yellow-400" },
-  { icon: <Lock className="h-3 w-3 shrink-0" />,          msg: "Brute-force auth stopped — 47 attempts/s",     color: "text-orange-600 dark:text-orange-400" },
-  { icon: <Terminal className="h-3 w-3 shrink-0" />,      msg: "XSS payload sanitised — React DOM secured",    color: "text-green-600 dark:text-green-400" },
-  { icon: <Shield className="h-3 w-3 shrink-0" />,        msg: "CVE-2024-3094 patch applied — system clean",   color: "text-blue-600 dark:text-blue-400" },
-  { icon: <AlertTriangle className="h-3 w-3 shrink-0" />, msg: "CSRF token mismatch — request denied",         color: "text-red-500 dark:text-red-400" },
+// A rotating "security baseline" feed: practices actually applied, not simulated telemetry.
+const SECURITY_FEED = [
+  { icon: <Shield className="h-3 w-3 shrink-0" />,        msg: "OWASP Top 10 review — auth flows hardened",  color: "text-green-600 dark:text-green-400" },
+  { icon: <Lock className="h-3 w-3 shrink-0" />,          msg: "JWT access + refresh rotation; bcrypt 12 rounds", color: "text-green-600 dark:text-green-400" },
+  { icon: <Terminal className="h-3 w-3 shrink-0" />,      msg: "Burp Suite — input validation and access control tested", color: "text-blue-600 dark:text-blue-400" },
+  { icon: <Wifi className="h-3 w-3 shrink-0" />,          msg: "Nmap + Wireshark — service enumeration and traffic analysis", color: "text-blue-600 dark:text-blue-400" },
+  { icon: <AlertTriangle className="h-3 w-3 shrink-0" />, msg: "Dependency audit clean before every deploy",  color: "text-yellow-600 dark:text-yellow-400" },
+  { icon: <Shield className="h-3 w-3 shrink-0" />,        msg: "CSP, HSTS and security headers verified per release", color: "text-green-600 dark:text-green-400" },
 ];
 
-const ThreatTicker = () => {
+const SecurityTicker = () => {
   const [idx, setIdx] = useState(0);
   useEffect(() => {
-    const t = setInterval(() => setIdx(i => (i + 1) % THREATS.length), 2800);
+    const t = setInterval(() => setIdx(i => (i + 1) % SECURITY_FEED.length), 2800);
     return () => clearInterval(t);
   }, []);
-  const threat = THREATS[idx];
+  const item = SECURITY_FEED[idx];
   return (
     <AnimatePresence mode="wait">
       <motion.div key={idx}
         initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -6 }} transition={{ duration: 0.3 }}
-        className={`flex items-center gap-2 font-mono text-xs ${threat.color} min-w-0`}
+        className={`flex items-center gap-2 font-mono text-xs ${item.color} min-w-0`}
       >
-        {threat.icon}
-        <span className="truncate">{threat.msg}</span>
+        {item.icon}
+        <span className="truncate">{item.msg}</span>
       </motion.div>
     </AnimatePresence>
   );
@@ -68,13 +69,13 @@ const ThreatTicker = () => {
 
 // ── Stats ─────────────────────────────────────────────────────────
 const stats = [
-  { label: "Vulnerabilities Fixed", value: "5+",  icon: <Shield   className="h-4 w-4 text-red-500" /> },
-  { label: "Projects Shipped",      value: "6+",  icon: <Code2    className="h-4 w-4 text-red-500" /> },
-  { label: "CTF Challenges",        value: "10+", icon: <Terminal className="h-4 w-4 text-red-500" /> },
+  { label: "Certifications",   value: "5",   icon: <Shield   className="h-4 w-4 text-red-500" /> },
+  { label: "CTF Challenges",   value: "80+", icon: <Terminal className="h-4 w-4 text-red-500" /> },
+  { label: "Projects Shipped", value: "6",   icon: <Code2    className="h-4 w-4 text-red-500" /> },
 ];
 
 // ── Typing subtitle ───────────────────────────────────────────────
-const TITLES = ["MERN Stack Developer", "Ethical Hacker", "Penetration Tester", "Cyber Security Analyst"];
+const TITLES = ["Cybersecurity Analyst", "Penetration Tester", "SOC Analyst", "Secure Full-Stack Developer"];
 const useTyping = () => {
   const [titleIdx, setTitleIdx] = useState(0);
   const [displayed, setDisplayed] = useState("");
@@ -113,8 +114,8 @@ export const Hero = () => {
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 lg:py-20 relative z-10">
 
-        {/* Threat ticker — desktop */}
-        <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
+        {/* Security baseline ticker — desktop (decorative, hidden from assistive tech) */}
+        <motion.div aria-hidden="true" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
           className="mb-8 hidden sm:flex items-center gap-3
             bg-white/60 dark:bg-black/40 backdrop-blur-sm
@@ -122,25 +123,25 @@ export const Hero = () => {
             rounded-lg px-4 py-2 w-fit max-w-full overflow-hidden"
         >
           <span className="flex items-center gap-1 font-mono text-xs text-red-600 dark:text-red-500 shrink-0">
-            <span className="inline-block w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-            LIVE THREAT MONITOR
+            <span className="inline-block w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+            SECURITY BASELINE
           </span>
           <span className="text-red-400/50 text-xs shrink-0">|</span>
-          <div className="min-w-0 flex-1"><ThreatTicker /></div>
+          <div className="min-w-0 flex-1"><SecurityTicker /></div>
         </motion.div>
 
-        {/* Threat ticker — mobile */}
-        <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
+        {/* Security baseline ticker — mobile */}
+        <motion.div aria-hidden="true" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
           className="mb-6 flex sm:hidden items-center gap-2
             bg-white/60 dark:bg-black/40 backdrop-blur-sm
             border border-red-300 dark:border-red-500/30
             rounded-lg px-3 py-2 w-full overflow-hidden"
         >
-          <span className="inline-block w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse shrink-0" />
-          <span className="font-mono text-xs text-red-600 dark:text-red-500 shrink-0">LIVE</span>
+          <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse shrink-0" />
+          <span className="font-mono text-xs text-red-600 dark:text-red-500 shrink-0">BASELINE</span>
           <span className="text-red-400/40 shrink-0">|</span>
-          <div className="min-w-0 flex-1"><ThreatTicker /></div>
+          <div className="min-w-0 flex-1"><SecurityTicker /></div>
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-center">
@@ -150,7 +151,7 @@ export const Hero = () => {
             transition={{ duration: 0.6 }}>
 
             <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold mb-4 leading-tight text-gray-900 dark:text-white">
-              Hi, I'm{" "}
+              Hi, I&apos;m{" "}
               <span className="text-red-500 font-mono break-words">{glitchedName}</span>
             </h1>
 
@@ -158,13 +159,14 @@ export const Hero = () => {
               text-gray-600 dark:text-muted-foreground
               mb-6 flex items-center min-h-[2rem] sm:min-h-[2.5rem]">
               <span className="text-red-500 mr-2 shrink-0">&gt;</span>
-              <span className="truncate">{typedTitle}</span>
+              <span className="break-words">{typedTitle}</span>
               <span className="inline-block w-0.5 h-5 sm:h-7 bg-red-500 ml-1 shrink-0 animate-pulse" />
             </h2>
 
             <p className="text-sm sm:text-base lg:text-lg text-gray-600 dark:text-muted-foreground mb-6 max-w-xl">
-              Building secure, scalable web applications while defending systems against cyber threats.
-              Combining development expertise with security-first thinking to deliver robust digital solutions.
+              I test web applications the way an attacker would, then help teams fix what I find. My work sits at
+              the intersection of application security, penetration testing and SOC analysis &mdash; grounded in
+              full-stack engineering, so every remediation comes with working code.
             </p>
 
             {/* Stats */}
@@ -206,7 +208,7 @@ export const Hero = () => {
                 className="text-gray-500 dark:text-muted-foreground hover:text-red-500 transition-smooth" aria-label="GitHub">
                 <Github className="h-5 w-5 sm:h-6 sm:w-6" />
               </a>
-              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"
+              <a href="https://linkedin.com/in/glorison" target="_blank" rel="noopener noreferrer"
                 className="text-gray-500 dark:text-muted-foreground hover:text-red-500 transition-smooth" aria-label="LinkedIn">
                 <Linkedin className="h-5 w-5 sm:h-6 sm:w-6" />
               </a>
@@ -262,17 +264,17 @@ export const Hero = () => {
                   </motion.div>
 
                   {[
-                    { key: "name",     val: '"Glorison Ouma"',    delay: 1.5 },
-                    { key: "role",     val: '"MERN Developer"',   delay: 2   },
-                    { key: "security", val: '"Cyber Specialist"', delay: 2.5 },
-                    { key: "passion",  val: '"Secure code"',      delay: 3   },
+                    { key: "name",  val: '"Glorison Ouma"',           delay: 1.5 },
+                    { key: "role",  val: '"Cybersecurity Analyst"',   delay: 2   },
+                    { key: "focus", val: '["AppSec", "VAPT", "SOC"]', delay: 2.5 },
+                    { key: "stack", val: '"MERN + security tooling"', delay: 3   },
                   ].map(({ key, val, delay }) => (
                     <motion.div key={key} initial={{ opacity: 0 }} animate={{ opacity: 1 }}
                       transition={{ duration: 0.5, delay }} className="pl-3 sm:pl-4">
                       <code className="text-gray-500 dark:text-muted-foreground">
                         {key}:{" "}
                         <span className="text-green-600 dark:text-green-400">{val}</span>
-                        {key !== "passion" ? "," : ""}
+                        {key !== "stack" ? "," : ""}
                       </code>
                     </motion.div>
                   ))}
@@ -286,7 +288,7 @@ export const Hero = () => {
                     transition={{ duration: 0.5, delay: 4.2 }}
                     className="pt-2 border-t border-red-300 dark:border-red-500/20">
                     <code className="text-xs text-green-600 dark:text-green-400">
-                      ✓ TLS 1.3 · OWASP compliant · Secure
+                      ✓ OWASP Top 10 · Burp Suite · Nmap · Wireshark
                     </code>
                   </motion.div>
                 </div>

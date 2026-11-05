@@ -153,7 +153,7 @@ const SkillCard = ({ category, index }) => {
         {/* Header */}
         <div className="flex items-center gap-3 mb-5 mt-1">
           <div className={`w-9 h-9 rounded-lg flex items-center justify-center border transition-all duration-300 ${c.border} ${c.iconBg} ${isHovered ? "scale-110" : ""}`}>
-            <Icon className={`h-4.5 w-4.5 ${c.icon}`} style={{ height: "1.1rem", width: "1.1rem" }} />
+            <Icon className={`h-4 w-4 ${c.icon}`} style={{ height: "1.1rem", width: "1.1rem" }} />
           </div>
           <div>
             <h3 className="font-bold text-sm sm:text-base text-gray-900 dark:text-foreground leading-tight">
@@ -250,7 +250,7 @@ export const Skills = () => {
             <span className="text-red-500 font-mono">[Expertise]</span>
           </h2>
           <p className="text-base sm:text-lg text-gray-600 dark:text-muted-foreground max-w-2xl mx-auto">
-            A comprehensive overview of my technical and professional competencies
+            Security tooling alongside the engineering skills needed to fix what it finds
           </p>
         </motion.div>
 
@@ -272,7 +272,7 @@ export const Skills = () => {
           {[
             { label: "Modules",       value: `${skillCategories.length} active`,                                   dot: "bg-green-500" },
             { label: "Total Skills",  value: `${skillCategories.flatMap(c => c.skills).length}`,                   dot: "bg-blue-500"  },
-            { label: "Overall Avg",   value: `${totalAvg}%`,                                                       dot: "bg-red-500"   },
+            { label: "Self-assessed avg", value: `${totalAvg}%`,                                                   dot: "bg-red-500"   },
           ].map(item => (
             <div key={item.label} className="flex items-center gap-2">
               <span className={`inline-block w-2 h-2 rounded-full ${item.dot} animate-pulse`} />

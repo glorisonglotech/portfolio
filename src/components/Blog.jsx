@@ -23,7 +23,7 @@ Building scalable REST APIs is one of the most critical skills for any backend d
 
 ## 1. Project Structure
 
-A well-organised project is the foundation of scalability. Structure your Node.js/Express app like this:
+A well-organized project is the foundation of scalability. Structure your Node.js/Express app like this:
 
 \`\`\`
 src/
@@ -101,7 +101,7 @@ app.use('/api/auth/login', loginLimiter);
 
 ---
 
-## 4. Database Optimisation
+## 4. Database Optimization
 
 Slow queries are the #1 killer of API performance. In MongoDB:
 
@@ -137,7 +137,7 @@ const getUsers = async (page = 1, limit = 20) => {
 
 ## 5. Error Handling
 
-Centralise all error handling in one middleware:
+Centralize all error handling in one middleware:
 
 \`\`\`javascript
 class AppError extends Error {
@@ -189,7 +189,7 @@ router.get('/products', cacheMiddleware(600), getProducts);
 
 ## Conclusion
 
-Scalable APIs aren't built by accident. They're the result of disciplined structure, proper authentication, rate limiting, smart database queries, centralised error handling, and caching. Apply these patterns from the start and your API will handle whatever traffic comes its way.
+Scalable APIs aren't built by accident. They're the result of disciplined structure, proper authentication, rate limiting, smart database queries, centralized error handling, and caching. Apply these patterns from the start and your API will handle whatever traffic comes its way.
 
 > *Security tip: always validate and sanitise input at the route level using a library like \`joi\` or \`zod\` before it ever reaches your controllers.*
     `,
@@ -392,7 +392,7 @@ MongoDB can be blazing fast or painfully slow — the difference almost always c
 
 ## 1. Understand the Query Planner
 
-Before optimising anything, understand what MongoDB is actually doing:
+Before optimizing anything, understand what MongoDB is actually doing:
 
 \`\`\`javascript
 // Always start with explain()
@@ -485,7 +485,7 @@ const postSchema = {
 
 ---
 
-## 4. Aggregation Pipeline Optimisation
+## 4. Aggregation Pipeline Optimization
 
 Always put \`$match\` and \`$sort\` at the beginning of the pipeline so MongoDB can use indexes:
 
@@ -559,7 +559,7 @@ In production, use MongoDB Atlas Performance Advisor — it automatically sugges
 
 ## Conclusion
 
-MongoDB performance optimisation is a continuous process. Start with \`explain()\` to understand your queries, add indexes strategically following the ESR rule (Equality → Sort → Range), design schemas around your access patterns, and use \`.lean()\` for read-heavy endpoints. These techniques alone can reduce query times from hundreds of milliseconds to single digits.
+MongoDB performance optimization is a continuous process. Start with \`explain()\` to understand your queries, add indexes strategically following the ESR rule (Equality → Sort → Range), design schemas around your access patterns, and use \`.lean()\` for read-heavy endpoints. These techniques alone can reduce query times from hundreds of milliseconds to single digits.
 
 > *Security tip: always enable authentication, use least-privilege roles for your app's DB user, and never expose MongoDB directly to the internet — always put it behind your application server.*
     `,
@@ -633,7 +633,7 @@ Attacker-controlled input executed as a query or command.
 // VULNERABLE — attacker sends: { "email": { "$gt": "" } }
 const user = await User.findOne({ email: req.body.email });
 
-// FIXED — validate and sanitise input
+// FIXED — validate and sanitize input
 const { email, password } = req.body;
 if (typeof email !== 'string' || typeof password !== 'string') {
   return res.status(400).json({ error: 'Invalid input' });
@@ -659,8 +659,8 @@ Default configs, verbose error messages, open S3 buckets, debug mode in producti
 
 \`\`\`javascript
 // Remove these from production
-app.use(morgan('dev'));         // logs too much info
-app.set('x-powered-by', false); // hide Express fingerprint
+app.use(morgan('dev'));        // logs too much info
+app.disable('x-powered-by');   // hide the Express fingerprint
 
 // Use helmet to set secure headers
 const helmet = require('helmet');
@@ -736,20 +736,20 @@ Always verify integrity of third-party scripts:
 Without logs, you can't detect or respond to breaches.
 
 \`\`\`javascript
-const auditLog = (action, userId, details) => {
-  console.log(JSON.stringify({
+const auditLog = (req, action, userId, details) => {
+  logger.info('security_event', {
     timestamp: new Date().toISOString(),
     action,
     userId,
+    ip: req.ip,
     details,
-    ip: req.ip
-  }));
+  });
 };
 
-// Log all auth events
-auditLog('LOGIN_SUCCESS', user.id, { email: user.email });
-auditLog('LOGIN_FAILURE', null, { email: req.body.email, ip: req.ip });
-auditLog('PASSWORD_RESET', user.id, {});
+// Log all auth events — never log passwords, tokens or full request bodies
+auditLog(req, 'LOGIN_SUCCESS', user.id, { email: user.email });
+auditLog(req, 'LOGIN_FAILURE', null, { email: req.body.email });
+auditLog(req, 'PASSWORD_RESET', user.id, {});
 \`\`\`
 
 ---
@@ -760,19 +760,32 @@ Attacker tricks the server into making requests to internal resources.
 
 \`\`\`javascript
 const { URL } = require('url');
+const dns = require('dns').promises;
 
-const validateUrl = (urlString) => {
+// Block private, loopback, link-local and IPv6 unique-local ranges
+const PRIVATE_RANGE = [
+  /^10\./, /^127\./, /^0\./, /^169\.254\./,
+  /^192\.168\./, /^172\.(1[6-9]|2\d|3[01])\./,
+  /^::1$/, /^f[cd][0-9a-f]{2}:/i,
+];
+
+const validateUrl = async (urlString) => {
   const url = new URL(urlString);
-  // Block internal/private IP ranges
-  const blocked = ['localhost', '127.0.0.1', '0.0.0.0', '169.254.169.254'];
-  if (blocked.some(b => url.hostname.includes(b))) {
-    throw new Error('Blocked URL');
-  }
   if (!['http:', 'https:'].includes(url.protocol)) {
     throw new Error('Invalid protocol');
   }
+
+  // Resolve first and check the address, not the hostname string.
+  // String matching alone misses 127.0.0.1.nip.io and decimal-encoded IPs.
+  const { address } = await dns.lookup(url.hostname);
+  if (PRIVATE_RANGE.some((range) => range.test(address))) {
+    throw new Error('Blocked destination');
+  }
   return url.toString();
 };
+
+// DNS rebinding and redirects still need network-level egress rules —
+// application validation is one layer, not the whole defence.
 \`\`\`
 
 ---
@@ -799,7 +812,7 @@ Security isn't a feature you add at the end — it's a discipline baked into eve
 
 Penetration testing (pen testing) is the practice of legally and ethically attacking a system to find vulnerabilities before malicious hackers do. A pen tester thinks like an attacker — but works for the defender.
 
-**Important:** Never test systems you don't own or have explicit written permission to test. Unauthorised testing is a criminal offence.
+**Important:** Never test systems you don't own or have explicit written permission to test. Unauthorized testing is a criminal offense.
 
 ---
 
@@ -944,13 +957,13 @@ For each finding:
 \`\`\`
 Title:       SQL Injection in /api/login
 Severity:    Critical (CVSS 9.8)
-Description: The email parameter is unsanitised and allows
-             attacker to bypass authentication.
+Description: The email parameter is unvalidated and lets an
+             attacker bypass authentication.
 Evidence:    POST /api/login
              email=' OR 1=1 --&password=anything
              Response: 200 OK — logged in as admin
-Remediation: Use parameterised queries / prepared statements.
-             Validate and sanitise all user input.
+Remediation: Use parameterized queries / prepared statements.
+             Validate and sanitize all user input.
 References:  OWASP A03:2021 — Injection
 \`\`\`
 
@@ -974,7 +987,7 @@ References:  OWASP A03:2021 — Injection
 
 Penetration testing is a structured discipline — not random hacking. Follow the methodology, document everything, and always stay within the agreed scope. If you're starting out, practice on legal platforms: TryHackMe, HackTheBox, VulnHub, and DVWA are all excellent for building real skills safely.
 
-> *"The best defence is understanding how the offence works." — Glorison Ouma*
+> *Always test within scope and in writing. An "unauthorized test" is an incident, not a finding.*
     `,
   },
   {
@@ -1024,13 +1037,13 @@ Headers helmet sets for you:
 
 ---
 
-## ✅ 2. Input Validation & Sanitisation
+## ✅ 2. Input Validation & Sanitization
 
 \`\`\`javascript
 const { z } = require('zod');
 const mongoSanitize = require('express-mongo-sanitize');
 
-// Sanitise MongoDB operators from all requests
+// Sanitize MongoDB operators from all requests
 app.use(mongoSanitize());
 
 // Validate with Zod schemas
@@ -1192,6 +1205,17 @@ Security hardening is not optional for production applications. Run through this
   },
 ];
 
+// Escape HTML before applying our own inline formatting. The article bodies are static
+// today, but anything rendered through dangerouslySetInnerHTML should never be the
+// weakest link on a security portfolio.
+const escapeHtml = (str) =>
+  str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+
 // ── Article reader modal ──────────────────────────────────────────
 const ArticleModal = ({ post, onClose }) => {
   // Simple markdown-to-JSX renderer
@@ -1263,7 +1287,7 @@ const ArticleModal = ({ post, onClose }) => {
 
       // Inline code + bold in paragraphs
       if (line.trim()) {
-        const formatted = line
+        const formatted = escapeHtml(line)
           .replace(/`([^`]+)`/g, '<code class="bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 px-1 py-0.5 rounded text-xs font-mono border border-red-200 dark:border-red-500/20">$1</code>')
           .replace(/\*\*([^*]+)\*\*/g, '<strong class="text-gray-900 dark:text-white font-bold">$1</strong>');
         elements.push(
@@ -1283,6 +1307,9 @@ const ArticleModal = ({ post, onClose }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
+      role="dialog"
+      aria-modal="true"
+      aria-label={post.title}
       className="fixed inset-0 z-50 flex items-start justify-center p-4 pt-8 bg-black/70 backdrop-blur-sm overflow-y-auto"
       onClick={onClose}
     >
@@ -1375,6 +1402,9 @@ const ScanLine = () => (
 export const Blog = () => {
   const [activePost, setActivePost] = useState(null);
   const [hoveredId, setHoveredId] = useState(null);
+
+  // Derive the "last updated" stamp instead of hardcoding it
+  const latestDate = blogPosts.reduce((latest, post) => (post.date > latest ? post.date : latest), "");
 
   return (
     <>
@@ -1501,7 +1531,7 @@ export const Blog = () => {
             {[
               { label: "Articles",  value: `${blogPosts.length} published`, dot: "bg-green-500" },
               { label: "Topics",    value: "Dev + Security",               dot: "bg-red-500"   },
-              { label: "Updated",   value: "Mar 2025",                     dot: "bg-blue-500"  },
+              { label: "Updated",   value: new Date(latestDate).toLocaleDateString("en-US", { month: "short", year: "numeric" }), dot: "bg-blue-500" },
             ].map(item => (
               <div key={item.label} className="flex items-center gap-2">
                 <span className={`inline-block w-2 h-2 rounded-full ${item.dot} animate-pulse`} />

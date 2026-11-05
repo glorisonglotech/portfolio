@@ -12,53 +12,53 @@ import glovcf from "@/assets/glovcf.png";
 const devProjects = [
   {
     id: 1,
-    title: "Business Management Solution",
-    description: "Complete Business Management Solution for small and medium-sized businesses. Streamline your entire business with our all-in-one platform. Manage inventory, run your e-commerce store, schedule appointments, and track finances — all from one beautiful dashboard.",
+    title: "OmniBiz Hub — Business Management Platform",
+    description: "Operations platform for small businesses: inventory, e-commerce orders, appointments and finances in one dashboard. I built the React interface and the Express/MongoDB API behind it, and integrated M-Pesa (Daraja) payments so orders can be paid and reconciled in the same system.",
     image: ominbiz,
-    tags: ["React", "Node.js", "MongoDB", "Mpesa Daraja API"],
+    tags: ["React", "Node.js", "Express", "MongoDB", "M-Pesa Daraja"],
     category: "Full-Stack",
     liveUrl: "https://omnibizhub.netlify.app/",
-    githubUrl: "https://github.com",
+    githubUrl: "https://github.com/glorisonglotech",
   },
   {
     id: 2,
-    title: "Movie Search Tool",
-    description: "Discover movies, explore captivating stories, and find your next cinematic adventure with our intuitive search tool. Effortlessly browse through a wide range of films and genres to uncover hidden gems or popular blockbusters.",
+    title: "Movie Discovery App",
+    description: "React search interface over a public movie API: results update as you type, genres are browsable, and loading, empty and error states are all handled explicitly so the UI never lies about what it is showing.",
     image: glomovie,
-    tags: ["React", "Tailwind", "API Integration"],
+    tags: ["React", "Tailwind CSS", "REST API", "Async State"],
     category: "Frontend",
     liveUrl: "https://glomovie.netlify.app/",
-    githubUrl: "https://github.com",
+    githubUrl: "https://github.com/glorisonglotech",
   },
   {
     id: 3,
-    title: "Rental Management System",
-    description: "A comprehensive rental management system designed to streamline property operations. Easily manage leases, track payments, handle tenant communication, and simplify maintenance requests — all from a single user-friendly platform.",
+    title: "RentWise — Rental Management System",
+    description: "Property operations platform covering leases, rent tracking, maintenance requests and tenant messaging. React front end on an Express/MongoDB API, with authentication gating every dashboard route so users only reach their own records.",
     image: rentwise,
-    tags: ["React", "Tailwind", "Node.js", "Express", "MongoDB"],
+    tags: ["React", "Tailwind CSS", "Node.js", "Express", "MongoDB", "JWT Auth"],
     category: "Full-Stack",
     liveUrl: "https://rentwisek.netlify.app/",
-    githubUrl: "https://github.com",
+    githubUrl: "https://github.com/glorisonglotech",
   },
   {
     id: 4,
-    title: "Virtual Card File Platform",
-    description: "An all-in-one platform for effortlessly creating and managing VCF contact files. Register phone numbers globally and generate professional contact files in seconds.",
+    title: "GloVCF — Contact File Generator",
+    description: "Turns contact details into importable .vcf files, removing the manual formatting work of moving contacts between devices. Input is validated before the file is generated and returned for download.",
     image: glovcf,
-    tags: ["React", "Tailwind", "Node.js", "Express", "MongoDB"],
-    category: "Frontend",
+    tags: ["React", "Tailwind CSS", "Node.js", "Express", "MongoDB"],
+    category: "Full-Stack",
     liveUrl: "https://glovcf.netlify.app/",
-    githubUrl: "https://github.com",
+    githubUrl: "https://github.com/glorisonglotech",
   },
   {
     id: 5,
-    title: "Fundifind Platform",
-    description: "Discover skilled fundis across Kenya. Connect with verified craftsmen, artisans, and service providers to get quality work done with trust, transparency, and ease.",
+    title: "FundiFind — Service Marketplace",
+    description: "Marketplace connecting customers with fundis (artisans) across Kenya: search by trade and location, review provider profiles and request work. React front end backed by an Express/MongoDB API.",
     image: fundifind,
-    tags: ["React", "Tailwind", "Node.js", "Express", "MongoDB"],
-    category: "Frontend",
+    tags: ["React", "Tailwind CSS", "Node.js", "Express", "MongoDB"],
+    category: "Full-Stack",
     liveUrl: "https://fundifind.netlify.app/",
-    githubUrl: "https://github.com",
+    githubUrl: "https://github.com/glorisonglotech",
   },
 ];
 
@@ -67,19 +67,19 @@ const cyberProjects = [
   {
     id: 101,
     title: "Web Application Penetration Test",
-    description: "Full black-box penetration test of a simulated e-commerce application. Discovered and documented SQL injection, stored XSS, IDOR, and broken authentication vulnerabilities. Delivered a remediation report with CVSS scores.",
+    description: "Black-box assessment of an intentionally vulnerable e-commerce target, run through a documented methodology: recon, enumeration, exploitation, then evidence capture. Findings included SQL injection, stored XSS, IDOR and broken authentication, each written up with CVSS severity, reproduction steps and remediation.",
     tags: ["Burp Suite", "SQLmap", "OWASP Top 10", "CVSS"],
     severity: "CRITICAL",
     type: "VAPT",
     icon: Bug,
-    findings: ["SQL Injection — CVE score 9.8", "Stored XSS — 3 endpoints", "IDOR — user data exposed", "Broken Auth — session fixation"],
+    findings: ["SQL injection — CVSS 9.8 (critical)", "Stored XSS — 3 endpoints", "IDOR — other users' data exposed", "Broken auth — session fixation"],
     status: "Report Delivered",
     githubUrl: "https://github.com/glorisonglotech",
   },
   {
     id: 102,
     title: "Network Traffic Analysis",
-    description: "Captured and analysed live network traffic to identify anomalies, unencrypted credentials, ARP spoofing attempts, and suspicious lateral movement patterns using Wireshark and custom Python scripts.",
+    description: "Captured live traffic in a lab network with tcpdump, then analyzed it in Wireshark and custom Scapy scripts to surface anomalies: cleartext credentials, ARP spoofing, port scanning and DNS tunneling. Documented each anomaly with the packet-level evidence behind it.",
     tags: ["Wireshark", "Python", "Scapy", "PCAP Analysis"],
     severity: "HIGH",
     type: "NETWORK",
@@ -91,12 +91,12 @@ const cyberProjects = [
   {
     id: 103,
     title: "CTF Challenge Write-ups",
-    description: "Collection of Capture The Flag challenge solutions covering web exploitation, reverse engineering, cryptography, and forensics. Solved 80+ challenges across TryHackMe, HackTheBox, and PicoCTF platforms.",
+    description: "Write-ups of Capture The Flag challenges across web exploitation, reverse engineering, cryptography and forensics. Each entry records the initial enumeration, the reasoning path, the exploit, and the lesson worth reusing.",
     tags: ["TryHackMe", "HackTheBox", "PicoCTF", "Crypto", "Forensics"],
     severity: "MEDIUM",
     type: "CTF",
     icon: Terminal,
-    findings: ["80+ challenges solved", "Top 5% TryHackMe ranking", "Web, Crypto & Forensics", "Write-ups documented"],
+    findings: ["80+ challenges solved", "Web, crypto & forensics", "Reverse engineering basics", "Write-ups documented"],
     status: "Ongoing",
     githubUrl: "https://github.com/glorisonglotech",
   },
@@ -108,14 +108,14 @@ const cyberProjects = [
     severity: "HIGH",
     type: "SECURE DEV",
     icon: Lock,
-    findings: ["JWT + refresh tokens", "Bcrypt hashing rounds 12", "Rate limit 5 req/min", "OWASP A07 compliant"],
-    status: "Deployed",
+    findings: ["JWT + refresh token rotation", "bcrypt hashing, 12 rounds", "Rate limit: 5 req/min on login", "OWASP A07 controls implemented"],
+    status: "Implemented & Tested",
     githubUrl: "https://github.com/glorisonglotech",
   },
   {
     id: 105,
     title: "SOC Incident Response Lab",
-    description: "Built a home SOC lab using Security Onion and simulated real-world attacks including phishing campaigns, ransomware behaviour, and privilege escalation. Created detection rules in Suricata and Elasticsearch.",
+    description: "Home SOC lab built on Security Onion, used to simulate phishing, ransomware behavior and privilege escalation, then confirm detection end to end. Wrote custom Suricata rules and Elastic Security detection rules, and reviewed the resulting alerts as a triage exercise.",
     tags: ["Security Onion", "Suricata", "ELK Stack", "SIEM"],
     severity: "HIGH",
     type: "SOC",
@@ -127,12 +127,12 @@ const cyberProjects = [
   {
     id: 106,
     title: "Vulnerability Scanner Script",
-    description: "Developed a Python-based automated vulnerability scanner that enumerates open ports, detects service versions, checks against CVE databases, and outputs structured JSON reports for further analysis.",
-    tags: ["Python", "Nmap", "CVE API", "JSON Reports"],
+    description: "Python-based scanner that enumerates open ports, fingerprints service versions, correlates them against the NVD (CVE) API and writes a structured JSON report for triage. Built to automate the repetitive first pass of an assessment.",
+    tags: ["Python", "Nmap", "NVD API", "JSON Reports"],
     severity: "MEDIUM",
     type: "TOOL",
     icon: AlertTriangle,
-    findings: ["Port & service enum", "CVE DB lookup", "JSON report output", "Banner grabbing"],
+    findings: ["Port & service enumeration", "Version fingerprinting", "NVD CVE correlation", "JSON report output"],
     status: "Open Source",
     githubUrl: "https://github.com/glorisonglotech",
   },
@@ -148,7 +148,6 @@ const devCategories = [
   { label: "All",        icon: Layers   },
   { label: "Full-Stack", icon: Shield   },
   { label: "Frontend",   icon: Code2    },
-  { label: "Backend",    icon: Terminal },
 ];
 
 // ── Scan line ─────────────────────────────────────────────────────
@@ -288,7 +287,7 @@ const DevCard = ({ project, index }) => {
             </Button>
             <Button variant="outline" size="sm" className="border-red-300 dark:border-red-500/40 text-red-600 dark:text-red-400 hover:bg-red-500 hover:text-white hover:border-red-500 flex-1 text-xs sm:text-sm" asChild>
               <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                <Github className="mr-1.5 h-3.5 w-3.5" /> Code
+                <Github className="mr-1.5 h-3.5 w-3.5" /> GitHub
               </a>
             </Button>
           </div>
@@ -340,7 +339,8 @@ const CyberCard = ({ project, index }) => {
               </div>
               <span className="font-mono text-xs text-red-600 dark:text-red-400 font-bold tracking-widest">{project.type}</span>
             </div>
-            <div className={`flex items-center gap-1.5 px-2 py-1 rounded-md border ${sc.border} ${sc.badge}`}>
+            <div className={`flex items-center gap-1.5 px-2 py-1 rounded-md border ${sc.border} ${sc.badge}`}
+              title="Highest severity identified in this engagement">
               <span className={`inline-block w-1.5 h-1.5 rounded-full ${sc.dot} ${sc.pulse ? "animate-pulse" : ""}`} />
               <span className={`font-mono text-xs font-bold ${sc.text}`}>{project.severity}</span>
             </div>
@@ -364,7 +364,7 @@ const CyberCard = ({ project, index }) => {
               className="border-red-300 dark:border-red-500/40 text-red-600 dark:text-red-400 hover:bg-red-500 hover:text-white hover:border-red-500 text-xs"
               asChild>
               <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                <Github className="mr-1.5 h-3.5 w-3.5" /> View Write-up
+                <Github className="mr-1.5 h-3.5 w-3.5" /> GitHub
               </a>
             </Button>
           </div>
@@ -407,7 +407,7 @@ export const Projects = () => {
             Featured <span className="text-red-500 font-mono">[Projects]</span>
           </h2>
           <p className="text-base sm:text-lg text-gray-600 dark:text-muted-foreground max-w-2xl mx-auto">
-            Here are some of my recent projects that showcase my skills and experience
+            Selected build work and security engagements — the problem, the approach, the tools, and what came out of it
           </p>
         </motion.div>
 

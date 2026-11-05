@@ -78,6 +78,7 @@ export const Header = () => {
 
           {/* ── Logo ── */}
           <a href="#home" onClick={(e) => { e.preventDefault(); handleNavClick("#home"); }}
+            aria-label="Glorison Ouma — back to top"
             className="flex items-center gap-2.5 group">
             <div className="w-8 h-8 rounded-lg flex items-center justify-center
               bg-red-500 border border-red-600
@@ -88,7 +89,7 @@ export const Header = () => {
             </div>
             <div className="hidden sm:block">
               <span className="font-bold text-gray-900 dark:text-white text-base leading-none">Glorison</span>
-              <span className="font-mono text-xs text-red-500 block leading-none mt-0.5">dev · hacker</span>
+              <span className="font-mono text-xs text-red-500 block leading-none mt-0.5">appsec · soc</span>
             </div>
           </a>
 
@@ -226,7 +227,7 @@ export const Header = () => {
                 <div className="mt-4 pt-3 border-t border-red-100 dark:border-red-500/10 flex items-center gap-3 px-1">
                   <Shield className="h-3.5 w-3.5 text-red-500" />
                   <span className="font-mono text-xs text-gray-400 dark:text-muted-foreground">
-                    glorisonglotech · MERN · CyberSec
+                    glorisonglotech · appsec · mern
                   </span>
                 </div>
               </div>

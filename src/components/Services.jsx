@@ -35,7 +35,7 @@ const mernServices = [
 const cybersecurityServices = [
   {
     title: "Vulnerability Assessment & Penetration Testing",
-    description: "Identifying security weaknesses through comprehensive testing and ethical hacking techniques.",
+    description: "Scope-bound, authorized testing of web applications and APIs, delivered with reproducible evidence and a prioritized remediation plan.",
     icon: Bug,
     tag: "VAPT",
     severity: "CRITICAL",
@@ -49,7 +49,7 @@ const cybersecurityServices = [
   },
   {
     title: "SOC Analysis & Threat Detection",
-    description: "Monitoring, analyzing, and responding to security incidents and potential threats.",
+    description: "Alert triage, log analysis and incident documentation across SIEM and IDS tooling, with detection rules tuned to reduce false positives.",
     icon: Search,
     tag: "SOC · SIEM",
     severity: "HIGH",
@@ -69,10 +69,10 @@ const cybersecurityServices = [
     severity: "MEDIUM",
   },
   {
-    title: "Security Audits & Compliance",
-    description: "Conducting thorough security assessments to ensure regulatory compliance.",
+    title: "Security Audits & Hardening",
+    description: "Reviewing application and configuration baselines against OWASP ASVS and CIS benchmarks, then ranking gaps by exploitability and business impact.",
     icon: Lock,
-    tag: "ISO · GDPR · PCI",
+    tag: "OWASP ASVS · CIS",
     severity: "HIGH",
   },
 ];
@@ -157,7 +157,7 @@ export const Services = () => {
             My <span className="text-red-500 font-mono">[Services]</span>
           </h2>
           <p className="text-base sm:text-lg text-gray-600 dark:text-muted-foreground max-w-2xl mx-auto">
-            Combining development expertise with security-first thinking to deliver comprehensive solutions
+            Offensive security testing and defensive engineering — delivered by someone who also writes the code being tested
           </p>
         </motion.div>
 
@@ -327,9 +327,9 @@ export const Services = () => {
           className="mt-14 flex flex-wrap items-center justify-center gap-4 sm:gap-8 border-t border-red-200 dark:border-red-500/10 pt-8"
         >
           {[
-            { label: "Services Active", value: "10",   dot: "bg-green-500" },
-            { label: "Threats Mitigated", value: "200+", dot: "bg-red-500" },
-            { label: "Uptime",           value: "99.9%", dot: "bg-blue-500" },
+            { label: "Services",    value: "10",                      dot: "bg-green-500" },
+            { label: "Engagements", value: "Scoped per project",      dot: "bg-red-500"   },
+            { label: "Deliverables", value: "Report + remediation plan", dot: "bg-blue-500"  },
           ].map(item => (
             <div key={item.label} className="flex items-center gap-2">
               <span className={`inline-block w-2 h-2 rounded-full ${item.dot} animate-pulse`} />

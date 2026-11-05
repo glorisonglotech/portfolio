@@ -1,4 +1,4 @@
-import { Code2, Database, Globe, GitBranch, Cloud, Zap, GraduationCap, Briefcase, Shield, Bug, Network, Lock } from "lucide-react";
+import { Code2, Database, Globe, GitBranch, Cloud, Zap, GraduationCap, Briefcase, Shield, Bug, Network, Lock, Search, Wifi } from "lucide-react";
 import { VerticalTimeline, VerticalTimelineElement } from "react-vertical-timeline-component";
 import "react-vertical-timeline-component/style.min.css";
 import { motion } from "framer-motion";
@@ -13,65 +13,64 @@ const devSkills = [
 ];
 
 const securitySkills = [
-  { name: "Pen Testing", icon: Bug },
-  { name: "Network Security", icon: Network },
-  { name: "SIEM/SOC", icon: Shield },
-  { name: "Cryptography", icon: Lock },
-  { name: "Wireshark", icon: Globe },
-  { name: "Burp Suite", icon: Code2 },
+  { name: "Penetration Testing", icon: Bug },
+  { name: "OWASP Top 10", icon: Shield },
+  { name: "Burp Suite", icon: Search },
+  { name: "Nmap", icon: Network },
+  { name: "Wireshark", icon: Wifi },
+  { name: "SIEM / SOC", icon: Lock },
 ];
 
 const experience = [
-
   {
-    title: "Mern Stack Developer",
+    title: "MERN Stack Developer",
     company: "Digital Innovations",
-    period: "2025 - present",
-    description: "Building and maintaining multiple client projects. Specializing in React frontend development and Node.js APIs.",
+    period: "2025 — Present",
+    description: "Build and maintain client web applications end to end: React interfaces, Node.js/Express APIs and MongoDB data models. Security work includes input validation, JWT session handling, secure header configuration and dependency patching before each release.",
   },
   {
     title: "Junior Frontend Developer",
     company: "Tech Solutions Inc.",
-    period: "2025 - 2025",
-    description: "Led development of enterprise web applications using MERN stack. Mentored other junior developers and implemented CI/CD pipelines.",
+    period: "2025",
+    description: "Built React interfaces for internal business tools and wired them to REST APIs. Contributed to a shared component library, code reviews and automated build checks.",
   },
 ];
 
 const education = [
   {
-    degree: "Google Professional Certificate (Cybersecurity)",
-    school: "Google / ITExperience ",
-    period: "2026 - Present",
-    description: "Professional training in SIEM tools, IDS, and Python for cybersecurity. Focusing on industry-standard incident detection and response protocols.",
+    degree: "Google Cybersecurity Professional Certificate",
+    school: "Google (Coursera)",
+    period: "2026 — Present",
+    description: "Coursework in SIEM tooling, intrusion detection, Linux and SQL, plus Python automation for security tasks — centred on detection, triage and incident response workflows.",
   },
   {
     degree: "Security Analyst Specialization",
     school: "Cyber Shujaa",
-    period: "2026 - Present",
-    description: "Specializing in SOC operations and defensive security. Focused on attaining core competencies in threat detection, incident response, and security monitoring through the structured Cyber Shujaa training framework.",
+    period: "2026 — Present",
+    description: "SOC-focused training in threat detection, incident response and security monitoring, delivered through the Cyber Shujaa programme run by USIU-Africa, Serianu and the Kenya Bankers Association.",
   },
   {
-    degree: "Cisco Ethical Hacker course",
-    school: "Cisco",
-    period: "2025 - 2025",
-    description: "Studying Cisco Ethical Hacker course to develop hands-on skills in penetration testing, vulnerability analysis, and offensive security—preparing for real-world cybersecurity challenges.",
+    degree: "Ethical Hacker Course",
+    school: "Cisco Networking Academy",
+    period: "2025",
+    description: "Hands-on labs in reconnaissance, vulnerability analysis and exploitation methodology, with an explicit focus on legal scope, authorization and ethical constraints.",
   },
   {
     degree: "Junior Cybersecurity Career Path",
     school: "Cisco Networking Academy & ICT Authority of Kenya",
-    period: "2025 - 2025",
-    description: "Enrolled in the Junior Cybersecurity Career Path program by Cisco and the ICT Authority of Kenya. Building foundational and practical skills in cybersecurity including network defense, penetration testing basics, vulnerability analysis, and security operations—preparing for entry-level roles in protecting digital infrastructure.",
+    period: "2025",
+    description: "Practical foundation in network defense, penetration testing fundamentals, vulnerability analysis and security operations.",
   },
   {
-    degree: "Computer Science level 6",
+    degree: "Computer Science (Level 6)",
     school: "TBNP",
-    period: "2023 - 2025",
-    description: "Studied Computer Science to build foundational skills in programming, algorithms, and software development, preparing for innovation in tech.",
+    period: "2023 — 2025",
+    description: "Foundations in programming, algorithms, data structures and software development.",
   },
   {
-    degree: "High School Education",
+    degree: "Kenya Certificate of Secondary Education",
     school: "Vihiga Friends High School",
-    period: "2019 - 2022",
+    period: "2019 — 2022",
     description: null,
   },
 ];
@@ -193,7 +192,7 @@ export const About = () => {
             About <span className="text-red-500 font-mono">[Me]</span>
           </h2>
           <p className="text-base sm:text-lg text-gray-600 dark:text-muted-foreground max-w-2xl mx-auto">
-            Passionate developer with 1+ years of experience building modern web applications
+            Security-focused engineer with hands-on experience in web application testing, SOC analysis and full-stack development
           </p>
         </motion.div>
 
@@ -220,20 +219,20 @@ export const About = () => {
             </div>
 
             <p className="text-sm sm:text-base lg:text-lg text-gray-600 dark:text-muted-foreground leading-relaxed mb-5">
-              I am a <strong>Cybersecurity Professional</strong> and <strong>MERN Stack Developer</strong> dedicated to building and securing the digital landscape. With a foundation in the MERN stack and specialized training from <strong>Cybershujaa</strong> and<strong>Google Certified Cybersecurity Professional</strong>, I bridge the gap between robust software engineering and proactive defense.
+              I&apos;m a <strong>cybersecurity analyst</strong> and full-stack engineer working where code meets risk. I test web applications for the flaws that actually get exploited &mdash; broken access control, injection, weak authentication &mdash; then write the fix in React, Node.js and MongoDB.
             </p>
             <p className="text-sm sm:text-base lg:text-lg text-gray-600 dark:text-muted-foreground leading-relaxed mb-5">
-              My expertise lies in <strong>offensive security</strong>, penetration testing, and developing secure, scalable web applications. 
+              My training runs in two directions. Defensively, I&apos;m completing the <strong>Google Cybersecurity Professional Certificate</strong> and the <strong>Cyber Shujaa Security Analyst</strong> programme, covering SIEM operations, network defense and incident response. Offensively, I&apos;ve completed Cisco&apos;s <strong>Ethical Hacker</strong> course and the Cisco/ICT Authority <strong>Junior Cybersecurity Career Path</strong>, with lab work in reconnaissance, vulnerability analysis and exploitation.
             </p>
             <p className="text-sm sm:text-base lg:text-lg text-gray-600 dark:text-muted-foreground leading-relaxed">
-              I thrive on solving complex problems, whether it's engineering a secure JWT-based authentication system or navigating a <strong>CTF challenge</strong> on TryHackMe. I am committed to continuous learning in the ever-evolving fields of network reconnaissance, ethical hacking, and modern web technologies.
+              Day to day that means <strong>Burp Suite, Nmap, Wireshark and Kali</strong> against deliberately vulnerable targets, and OWASP-driven hardening in the applications I build. I document findings so a developer can reproduce and fix them &mdash; severity, evidence, remediation &mdash; because a report nobody can action is just noise.
             </p>
 
             {/* Status line */}
             <div className="mt-5 pt-4 border-t border-red-100 dark:border-red-500/10 flex items-center gap-2">
               <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-500" />
               <span className="font-mono text-xs text-green-600 dark:text-green-400">
-                profile.loaded — clearance: developer + security
+                profile.loaded — focus: application security · soc · full-stack
               </span>
             </div>
           </div>

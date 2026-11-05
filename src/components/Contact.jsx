@@ -3,11 +3,17 @@ import { toast } from "sonner";
 import emailjs from "emailjs-com";
 import { motion } from "framer-motion";
 import {
-  Mail, MapPin, Phone, Send,
+  Mail, MapPin, Send,
   Github, Linkedin, Twitter,
-  Shield, Terminal, Lock, CheckCircle, AlertTriangle,
+  Shield, Terminal, Lock, CheckCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+
+// EmailJS IDs are public by design — restrict allowed origins in the EmailJS dashboard
+// so the keys cannot be reused from another site.
+const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID ?? "service_crueolp";
+const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID ?? "template_ywc7jva";
+const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY ?? "64zHV5ie8P-zTJIuz";
 
 // Scan line — consistent with portfolio
 const ScanLine = () => (
@@ -29,22 +35,22 @@ export const Contact = () => {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      const result = await emailjs.send(
-        "service_crueolp",
-        "template_ywc7jva",
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
         formData,
-        "64zHV5ie8P-zTJIuz"
+        EMAILJS_PUBLIC_KEY
       );
-      console.log(result.text);
-      toast.success("Message sent!", {
+      toast.success("Message sent", {
         description: "Thank you for reaching out. I'll get back to you soon.",
       });
       setFormData({ name: "", email: "", message: "" });
       setSubmitted(true);
       setTimeout(() => setSubmitted(false), 4000);
     } catch (error) {
-      console.error(error.text);
-      toast.error("Error sending message. Please try again.");
+      // EmailJS rejects with { status, text }; network failures reject with an Error.
+      console.error("EmailJS send failed:", error?.text ?? error?.message ?? error);
+      toast.error("Message could not be sent. Please email me directly.");
     } finally {
       setIsSubmitting(false);
     }
@@ -60,21 +66,14 @@ export const Contact = () => {
       label: "Email",
       value: "glorisonglotech@gmail.com",
       href: "mailto:glorisonglotech@gmail.com",
-      tag: "ENCRYPTED",
-    },
-    {
-      icon: Phone,
-      label: "Phone",
-      value: "+254 717 055 797",
-      href: "tel:+254717055797",
-      tag: "SECURE LINE",
+      tag: "PRIMARY",
     },
     {
       icon: MapPin,
       label: "Location",
-      value: "Uasin Gishu County, Kenya",
+      value: "Kenya — remote worldwide",
       href: null,
-      tag: "EAST AFRICA",
+      tag: "EAT / UTC+3",
     },
   ];
 
@@ -135,7 +134,7 @@ export const Contact = () => {
                 </span>
                 <div className="ml-auto flex items-center gap-1.5">
                   <Lock className="h-3 w-3 text-green-500" />
-                  <span className="font-mono text-xs text-green-600 dark:text-green-400">TLS 1.3</span>
+                  <span className="font-mono text-xs text-green-600 dark:text-green-400">HTTPS</span>
                 </div>
               </div>
 
@@ -272,7 +271,7 @@ export const Contact = () => {
                   <div className="flex items-center gap-2 pt-1">
                     <Shield className="h-3 w-3 text-green-500 shrink-0" />
                     <span className="font-mono text-xs text-gray-400 dark:text-gray-500">
-                      End-to-end encrypted · Powered by EmailJS
+                      Sent over HTTPS via EmailJS · never stores your data
                     </span>
                   </div>
                 </form>
@@ -314,7 +313,7 @@ export const Contact = () => {
                     <div className="w-10 h-10 rounded-lg flex items-center justify-center border shrink-0
                       bg-red-50 dark:bg-red-500/10 border-red-200 dark:border-red-500/30
                       group-hover:bg-red-500 group-hover:border-red-500 transition-all duration-300">
-                      <Icon className="h-4.5 w-4.5 text-red-500 group-hover:text-white transition-colors duration-300"
+                      <Icon className="h-4 w-4 text-red-500 group-hover:text-white transition-colors duration-300"
                         style={{ height: "1.1rem", width: "1.1rem" }} />
                     </div>
                     <div className="min-w-0">
@@ -394,7 +393,7 @@ export const Contact = () => {
                 {[
                   { label: "MERN Development",   status: "AVAILABLE", dot: "bg-green-500" },
                   { label: "Security Consulting", status: "AVAILABLE", dot: "bg-green-500" },
-                  { label: "Pen Testing (scoped)", status: "AVAILABLE", dot: "bg-green-500" },
+                  { label: "Scoped penetration tests", status: "AVAILABLE", dot: "bg-green-500" },
                   { label: "Full-time / Remote",  status: "OPEN",      dot: "bg-yellow-500" },
                 ].map((item) => (
                   <div key={item.label} className="flex items-center justify-between">
@@ -419,9 +418,9 @@ export const Contact = () => {
           viewport={{ once: true }} transition={{ delay: 0.4 }}
           className="mt-14 flex flex-wrap items-center justify-center gap-4 sm:gap-8 border-t border-red-200 dark:border-red-500/10 pt-8">
           {[
-            { label: "Encryption",   value: "TLS 1.3",    dot: "bg-green-500" },
-            { label: "Response",     value: "< 24 hours", dot: "bg-blue-500"  },
-            { label: "Status",       value: "Online",     dot: "bg-green-500" },
+            { label: "Transport",  value: "HTTPS",      dot: "bg-green-500" },
+            { label: "Response",   value: "< 24 hours", dot: "bg-blue-500"  },
+            { label: "Availability", value: "Open to work", dot: "bg-green-500" },
           ].map(item => (
             <div key={item.label} className="flex items-center gap-2">
               <span className={`inline-block w-2 h-2 rounded-full ${item.dot} animate-pulse`} />

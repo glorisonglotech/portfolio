@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Award, ExternalLink, Calendar, Shield, Code2, X, ZoomIn } from "lucide-react";
 import cybersecJ from "@/assets/cybersecJ.jpg";
-import cybershujaa from '@/assets/cybershujaa.png'
+import cybershujaa from "@/assets/cybershujaa.png";
 import plp from "@/assets/plp.jpg";
 import ajira from "@/assets/ajira.jpg";
 import javascript from "@/assets/javascript.jpg";
@@ -12,8 +12,9 @@ const developerCertifications = [
     title: "Power Learn Project Web Development",
     issuer: "Power Learn Project",
     date: "2025",
-    credentialId: "PLP-WEBDEV-12345",
-    credentialUrl: "#",
+    status: "Completed",
+    credentialId: null,
+    credentialUrl: null,
     skills: ["HTML", "CSS", "JavaScript", "React", "Node.js", "Express.js", "SQL", "MongoDB"],
     icon: Award,
     image: plp,
@@ -22,8 +23,9 @@ const developerCertifications = [
     title: "JavaScript Essentials",
     issuer: "JS Institute",
     date: "2025",
-    credentialId: "JSI-JS-001",
-    credentialUrl: "#",
+    status: "Completed",
+    credentialId: null,
+    credentialUrl: null,
     skills: ["JavaScript Fundamentals", "ES6+", "DOM Manipulation", "Functions", "Objects"],
     icon: Shield,
     image: javascript,
@@ -32,8 +34,9 @@ const developerCertifications = [
     title: "Ajira Web Development Training",
     issuer: "Ajira Digital Program",
     date: "2024",
-    credentialId: "AJIRA-WEBDEV-001",
-    credentialUrl: "#",
+    status: "Completed",
+    credentialId: null,
+    credentialUrl: null,
     skills: ["HTML", "CSS", "JavaScript", "React", "Node.js", "Databases"],
     icon: Award,
     image: ajira,
@@ -43,20 +46,22 @@ const developerCertifications = [
 const cybersecurityCertifications = [
   {
     title: "Junior Cybersecurity Analyst",
-    issuer: "ICT Authority of Kenya",
+    issuer: "ICT Authority of Kenya & Cisco Networking Academy",
     date: "2025",
-    credentialId: "ICTA-JCA-001",
-    credentialUrl: "#",
+    status: "Completed",
+    credentialId: null,
+    credentialUrl: null,
     skills: ["Network Defense", "Penetration Testing Basics", "Vulnerability Analysis", "Security Operations"],
     icon: Shield,
     image: cybersecJ,
   },
   {
     title: "Security Analyst",
-    issuer: "Cyber Shujaa Program (USIU-Africa, Serianu Ltd & Kenya Bankers Association)",
+    issuer: "Cyber Shujaa (USIU-Africa · Serianu · Kenya Bankers Association)",
     date: "2026",
-    credentialId: "CS2026-UB26042709144591 79",
-    credentialUrl: "#",
+    status: "In progress",
+    credentialId: null,
+    credentialUrl: null,
     skills: ["Network Defense", "Penetration Testing", "Vulnerability Analysis", "Security Operations"],
     icon: Shield,
     image: cybershujaa,
@@ -103,6 +108,9 @@ const CertLightbox = ({ cert, onClose }) => (
     initial={{ opacity: 0 }}
     animate={{ opacity: 1 }}
     exit={{ opacity: 0 }}
+    role="dialog"
+    aria-modal="true"
+    aria-label={`${cert.title} certificate`}
     className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
     onClick={onClose}
   >
@@ -241,7 +249,10 @@ const CertificationCard = ({ cert, index }) => {
             <div className="flex flex-wrap items-center gap-3 mb-4 text-xs text-gray-500 dark:text-muted-foreground">
               <div className="flex items-center gap-1.5">
                 <Calendar className="h-3.5 w-3.5" />
-                <span>Issued: <span className="font-semibold">{cert.date}</span></span>
+                <span>
+                  {cert.status === "Completed" ? "Issued" : "Started"}:{" "}
+                  <span className="font-semibold">{cert.date}</span>
+                </span>
               </div>
               {cert.credentialId && (
                 <div className="flex items-center gap-1.5 font-mono">
@@ -268,8 +279,12 @@ const CertificationCard = ({ cert, index }) => {
             {/* Status footer */}
             <div className="mt-4 pt-3 border-t border-red-100 dark:border-red-500/10 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-500" />
-                <span className="font-mono text-xs text-green-600 dark:text-green-400">cert.verified</span>
+                <span className={`inline-block w-1.5 h-1.5 rounded-full ${cert.status === "Completed" ? "bg-green-500" : "bg-yellow-500"}`} />
+                <span className={`font-mono text-xs ${cert.status === "Completed"
+                  ? "text-green-600 dark:text-green-400"
+                  : "text-yellow-600 dark:text-yellow-400"}`}>
+                  {cert.status === "Completed" ? "cert.completed" : "cert.in_progress"}
+                </span>
               </div>
               <button
                 onClick={() => setShowLightbox(true)}
@@ -332,7 +347,7 @@ export const Certifications = () => {
             <span className="text-red-500 font-mono">[Certifications]</span>
           </h2>
           <p className="text-base sm:text-lg text-gray-600 dark:text-muted-foreground max-w-2xl mx-auto">
-            Professional certifications in development and cybersecurity demonstrating expertise and commitment to continuous learning
+            Industry training in security operations, offensive testing and software engineering — completed and in progress
           </p>
         </motion.div>
 
@@ -365,9 +380,9 @@ export const Certifications = () => {
           className="mt-14 flex flex-wrap items-center justify-center gap-4 sm:gap-8 border-t border-red-200 dark:border-red-500/10 pt-8"
         >
           {[
-            { label: "Dev Certs", value: `${developerCertifications.length}`, dot: "bg-green-500" },
-            { label: "Cyber Certs", value: `${cybersecurityCertifications.length}`, dot: "bg-red-500" },
-            { label: "Status", value: "All Verified", dot: "bg-blue-500" },
+            { label: "Dev Certs",   value: `${developerCertifications.length}`,      dot: "bg-green-500" },
+            { label: "Cyber Certs", value: `${cybersecurityCertifications.length}`,  dot: "bg-red-500"   },
+            { label: "Status",      value: "4 completed · 1 in progress",           dot: "bg-blue-500"  },
           ].map(item => (
             <div key={item.label} className="flex items-center gap-2">
               <span className={`inline-block w-2 h-2 rounded-full ${item.dot} animate-pulse`} />

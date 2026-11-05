@@ -1,4 +1,4 @@
-import { Github, Linkedin, Twitter, Shield, Terminal, Lock, Mail, Phone, MapPin, Code2 } from "lucide-react";
+import { Github, Linkedin, Twitter, Shield, Terminal, Lock, Mail, MapPin, Code2 } from "lucide-react";
 import { motion } from "framer-motion";
 
 const currentYear = new Date().getFullYear();
@@ -16,8 +16,7 @@ const quickLinks = [
 
 const contactInfo = [
   { icon: Mail,   value: "glorisonglotech@gmail.com", href: "mailto:glorisonglotech@gmail.com" },
-  { icon: Phone,  value: "+254 717 055 797",           href: "tel:+254717055797"               },
-  { icon: MapPin, value: "Uasin Gishu County, Kenya",  href: null                              },
+  { icon: MapPin, value: "Kenya — remote worldwide",   href: null                              },
 ];
 
 const socials = [
@@ -27,10 +26,10 @@ const socials = [
 ];
 
 const statusItems = [
-  { label: "System",    value: "Online",    dot: "bg-green-500" },
-  { label: "Build",     value: "Passing",   dot: "bg-green-500" },
-  { label: "Security",  value: "Hardened",  dot: "bg-red-500"   },
-  { label: "Uptime",    value: "99.9%",     dot: "bg-blue-500"  },
+  { label: "Focus",    value: "AppSec · VAPT · SOC",  dot: "bg-red-500"   },
+  { label: "Based in", value: "Kenya (EAT)",          dot: "bg-blue-500"  },
+  { label: "Open to",  value: "Full-time · Remote",   dot: "bg-green-500" },
+  { label: "Response", value: "Under 24 hours",       dot: "bg-green-500" },
 ];
 
 export const Footer = () => {
@@ -96,12 +95,12 @@ export const Footer = () => {
                 <div className="font-bold text-gray-900 dark:text-white text-base leading-tight">
                   Glorison Ouma
                 </div>
-                <div className="font-mono text-xs text-red-500">MERN · CyberSec</div>
+                <div className="font-mono text-xs text-red-500">AppSec · SOC · MERN</div>
               </div>
             </div>
 
             <p className="text-sm text-gray-500 dark:text-muted-foreground mb-5 leading-relaxed max-w-xs">
-              Building secure, scalable web applications while defending systems against cyber threats.
+              I find web application weaknesses, document them so they can be reproduced, and ship the secure fix.
             </p>
 
             {/* Social links */}
@@ -127,7 +126,7 @@ export const Footer = () => {
               rounded-lg px-3 py-1.5">
               <Lock className="h-3 w-3 text-green-500" />
               <span className="font-mono text-xs text-green-600 dark:text-green-400">
-                OWASP Compliant · TLS 1.3
+                Built to OWASP Top 10 controls · HTTPS
               </span>
             </div>
           </motion.div>
@@ -223,11 +222,11 @@ export const Footer = () => {
             <div className="flex items-center gap-4 font-mono text-xs text-gray-400 dark:text-muted-foreground">
               <span className="flex items-center gap-1.5">
                 <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-500" />
-               Ethical Hacker
+                Security-first engineering
               </span>
               <span className="hidden sm:flex items-center gap-1.5">
                 <Shield className="h-3 w-3 text-red-500" />
-               Gamer
+                Kenya
               </span>
             </div>
 
